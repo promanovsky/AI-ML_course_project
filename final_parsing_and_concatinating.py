@@ -71,5 +71,5 @@ print(df.shape)
 df = df.loc[:, (df != 0).any(axis=0)]
 print(df.shape)
 
-df.to_csv(curr_dir +'/datasets/final_dataset.csv')
+df.to_csv(curr_dir +'/datasets/final_dataset.csv', index=False)
 print('done')

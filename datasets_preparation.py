@@ -70,7 +70,7 @@ df = df.loc[:, (df != 0).any(axis=0)] # удаление столбцов с н�
 print(df.head())
 print(df.shape)
 
-df.to_csv(curr_dir +'/datasets/dataset_step_1.csv')
+df.to_csv(curr_dir +'/datasets/dataset_step_1.csv', index=False)
 # END OF DATASET №1 ==================================================
 
 main_df = df
@@ -153,7 +153,7 @@ main_df = main_df.loc[:, (main_df != 0).any(axis=0)]
 print(main_df.head())
 print(main_df.shape)
 
-main_df.to_csv(curr_dir +'/datasets/dataset_step_2.csv')
+main_df.to_csv(curr_dir +'/datasets/dataset_step_2.csv', index=False)
 # END OF DATASET №2 ==================================================
 
 
@@ -220,6 +220,6 @@ print(main_df.shape)
 main_df = main_df.loc[:, (main_df != 0).any(axis=0)]
 print(main_df.shape)
 
-main_df.to_csv(curr_dir +'/datasets/dataset_step_3.csv')
+main_df.to_csv(curr_dir +'/datasets/dataset_step_3.csv', index=False)
 # END OF DATASET №3 ==================================================
 print('>>> done')

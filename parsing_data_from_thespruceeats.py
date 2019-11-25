@@ -50,15 +50,6 @@ for pageNum in range(1, 44):
         for card in cards:
             recipe_urls.append(card['href'])
 
-
-    # сборка урлов по заранее сохраненным страницам - не актуально - работаем с webdriver
-    #url = curr_dir + '/datasets/thespruceeats/offline/{}.html'.format(pageNum)
-    #with open(url) as f:
-    #    doc = soup(f.read(), 'html.parser')
-    #    cards = doc.select('a.card')
-    #    for card in cards:
-    #        recipe_urls.append(card['href'])
-
 print('Combined urls recipe count',len(recipe_urls))
 
 rating_data = dict()
