@@ -60,9 +60,9 @@ doPca2(min_max_scaled_columns)
 
 def showXGBTrainImportance(data, targetColumn, feature_columns, needSave=False):
     xgbTrainData = xgb.DMatrix(data, targetColumn, feature_names=feature_columns)
-    param = {'max_depth':3, 'objective':'reg:linear', 'eta':0.2}
-    model = xgb.train(param, xgbTrainData, num_boost_round=225)
-    xgb.plot_importance(model, grid ="false", max_num_features=25, height=0.3)
+    param = {'max_depth':7, 'objective':'reg:linear', 'eta':0.2}
+    model = xgb.train(param, xgbTrainData, num_boost_round=300)
+    xgb.plot_importance(model, grid ="false", max_num_features=100, height=0.3)
     if needSave:
         plt.savefig('feature importance param'+str(np.random.randint(0, 100))+'.pdf',size=1024, format='pdf',bbox_inches="tight")
     plt.show()
