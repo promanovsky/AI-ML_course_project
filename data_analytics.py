@@ -1,6 +1,5 @@
 import pandas as pd
 import os
-import pandas_profiling
 import numpy as np
 from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import minmax_scale
@@ -12,8 +11,6 @@ import xgboost as xgb
 curr_dir = os.path.abspath(os.curdir)
 df = pd.read_csv(curr_dir + '/datasets/engineering_in_progress_out.csv')
 print(df.shape)
-
-df.profile_report(style={'full_width':True}) # крайне тяжелая операция - выполняется очень долго
 
 columns_to_scale = list(df.columns)
 columns_to_scale.remove('Cocktail Name')
