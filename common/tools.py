@@ -6,6 +6,7 @@ from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier,
 from sklearn.ensemble import RandomForestRegressor
 import matplotlib.pyplot as plt
 import numpy as np
+import xgboost as xgb
 
 measures = dict()
 measures['dash'] = 0.462
@@ -127,7 +128,7 @@ def forest_classification_test(X, Y):
                                                         test_size = 0.25,
                                                         random_state = 101)
     start = time.process_time()
-    trainedforest = RandomForestClassifier(n_estimators=500, verbose=2).fit(X_Train,Y_Train)
+    trainedforest = RandomForestClassifier(n_estimators=500, verbose=1).fit(X_Train,Y_Train)
     print('Random forest classifier test training time =', time.process_time() - start)
     predictionforest = trainedforest.predict(X_Test)
     print(confusion_matrix(Y_Test,predictionforest))
@@ -139,7 +140,7 @@ def gradient_boosting_classification_test(X, Y):
                                                         test_size = 0.25,
                                                         random_state = 101)
     start = time.process_time()
-    trainedforest = GradientBoostingClassifier(n_estimators=500, verbose=2).fit(X_Train,Y_Train)
+    trainedforest = GradientBoostingClassifier(n_estimators=500, verbose=1).fit(X_Train,Y_Train)
     print('Gradient boosting classifier test training time =', time.process_time() - start)
     predictionforest = trainedforest.predict(X_Test)
     print(confusion_matrix(Y_Test,predictionforest))
@@ -152,7 +153,7 @@ def forest_regression_test(X, Y):
                                                             test_size = 0.25,
                                                             random_state = 101)
     start = time.process_time()
-    trainedforest = RandomForestRegressor(n_estimators=500, verbose=2).fit(X_Train,Y_Train)
+    trainedforest = RandomForestRegressor(n_estimators=500, verbose=1).fit(X_Train,Y_Train)
     print('Random forest regression test training time =', time.process_time() - start)
     predictionforest = trainedforest.predict(X_Test)
     print('mean_squared_error',mean_squared_error(Y_Test,predictionforest))
@@ -165,7 +166,7 @@ def gradient_boosting_regression_test(X, Y):
                                                         test_size = 0.25,
                                                         random_state = 101)
     start = time.process_time()
-    trainedforest = GradientBoostingRegressor(n_estimators=500, verbose=2).fit(X_Train,Y_Train)
+    trainedforest = GradientBoostingRegressor(n_estimators=500, verbose=1).fit(X_Train,Y_Train)
     print('Gradient boosting regression test training time =', time.process_time() - start)
     predictionforest = trainedforest.predict(X_Test)
     print('mean_squared_error',mean_squared_error(Y_Test,predictionforest))
@@ -173,7 +174,14 @@ def gradient_boosting_regression_test(X, Y):
     print("Random forest regression recall = {}".format(recall_score(Y_Test, predictionforest.round(), average='macro')))
     print("Random forest regression accuracy={}".format(accuracy_score(Y_Test, predictionforest.round())))
 
-
+def showXGBTrainImportance(data, targetColumn, feature_columns, needSave=False):
+    xgbTrainData = xgb.DMatrix(data, targetColumn, feature_names=feature_columns)
+    param = {'max_depth':7, 'objective':'reg:linear', 'eta':0.2}
+    model = xgb.train(param, xgbTrainData, num_boost_round=300)
+    xgb.plot_importance(model, grid ="false", max_num_features=30, height=0.5)
+    if needSave:
+        plt.savefig('feature importance param'+str(np.random.randint(0, 100))+'.pdf',size=1024, format='pdf',bbox_inches="tight")
+    plt.show()
 
 ingredients_transformation = dict()
 ingredients_transformation['wine'] = ['maurin quina','rose wine','sparkling wine','barsol perfecto amor (aperitif wine)','wine','rosé wine','moscato wine','white wine','port wine','white port', 'port', 'ruby port','tawny port',
