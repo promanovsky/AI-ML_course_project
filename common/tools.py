@@ -1,4 +1,11 @@
 import re
+import time
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import classification_report,confusion_matrix,mean_squared_error,precision_score, recall_score, accuracy_score
+from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier, GradientBoostingRegressor
+from sklearn.ensemble import RandomForestRegressor
+import matplotlib.pyplot as plt
+import numpy as np
 
 measures = dict()
 measures['dash'] = 0.462
@@ -89,16 +96,95 @@ def findMeasure(ingr, measures):
 def uncodeDecode(str):
     return str.encode('utf-8').decode('utf-8').replace('\xa0','').replace('\u200b','').replace('()', '').strip()
 
-selected_ingredients = dict()
-selected_ingredients['wine'] = ['maurin quina','rose wine','sparkling wine','barsol perfecto amor (aperitif wine)','wine','rosé wine','moscato wine','white wine','port wine','white port', 'port', 'ruby port','tawny port',
+def draw_confusion_matrix(y_true, y_pred):
+    cm=confusion_matrix(y_true, y_pred)
+    fig, ax = plt.subplots()
+    im = ax.imshow(cm, interpolation='nearest', cmap=plt.cm.Blues)
+    ax.figure.colorbar(im, ax=ax)
+
+    ax.set(xticks=np.arange(cm.shape[1]),
+           yticks=np.arange(cm.shape[0]),
+           title='Confusion matrix',
+           ylabel='True label',
+           xlabel='Predicted label')
+
+    plt.setp(ax.get_xticklabels(), rotation=45, ha="right",
+             rotation_mode="anchor")
+
+    fmt = 'd'
+    thresh = cm.max() / 2.
+    for i in range(cm.shape[0]):
+        for j in range(cm.shape[1]):
+            ax.text(j, i, format(cm[i, j], fmt),
+                    ha="center", va="center",
+                    color="white" if cm[i, j] > thresh else "black")
+    fig.tight_layout()
+    plt.show()
+    return
+
+def forest_classification_test(X, Y):
+    X_Train, X_Test, Y_Train, Y_Test = train_test_split(X, Y,
+                                                        test_size = 0.25,
+                                                        random_state = 101)
+    start = time.process_time()
+    trainedforest = RandomForestClassifier(n_estimators=500, verbose=2).fit(X_Train,Y_Train)
+    print('Random forest classifier test training time =', time.process_time() - start)
+    predictionforest = trainedforest.predict(X_Test)
+    print(confusion_matrix(Y_Test,predictionforest))
+    draw_confusion_matrix(Y_Test, predictionforest)
+    print(classification_report(Y_Test,predictionforest))
+
+def gradient_boosting_classification_test(X, Y):
+    X_Train, X_Test, Y_Train, Y_Test = train_test_split(X, Y,
+                                                        test_size = 0.25,
+                                                        random_state = 101)
+    start = time.process_time()
+    trainedforest = GradientBoostingClassifier(n_estimators=500, verbose=2).fit(X_Train,Y_Train)
+    print('Gradient boosting classifier test training time =', time.process_time() - start)
+    predictionforest = trainedforest.predict(X_Test)
+    print(confusion_matrix(Y_Test,predictionforest))
+    draw_confusion_matrix(Y_Test, predictionforest)
+    print(classification_report(Y_Test,predictionforest))
+
+
+def forest_regression_test(X, Y):
+    X_Train, X_Test, Y_Train, Y_Test = train_test_split(X, Y,
+                                                            test_size = 0.25,
+                                                            random_state = 101)
+    start = time.process_time()
+    trainedforest = RandomForestRegressor(n_estimators=500, verbose=2).fit(X_Train,Y_Train)
+    print('Random forest regression test training time =', time.process_time() - start)
+    predictionforest = trainedforest.predict(X_Test)
+    print('mean_squared_error',mean_squared_error(Y_Test,predictionforest))
+    print("Random forest regression precision = {}".format(precision_score(Y_Test, predictionforest.round(), average='macro')))
+    print("Random forest regression recall = {}".format(recall_score(Y_Test, predictionforest.round(), average='macro')))
+    print("Random forest regression accuracy={}".format(accuracy_score(Y_Test, predictionforest.round())))
+
+def gradient_boosting_regression_test(X, Y):
+    X_Train, X_Test, Y_Train, Y_Test = train_test_split(X, Y,
+                                                        test_size = 0.25,
+                                                        random_state = 101)
+    start = time.process_time()
+    trainedforest = GradientBoostingRegressor(n_estimators=500, verbose=2).fit(X_Train,Y_Train)
+    print('Gradient boosting regression test training time =', time.process_time() - start)
+    predictionforest = trainedforest.predict(X_Test)
+    print('mean_squared_error',mean_squared_error(Y_Test,predictionforest))
+    print("Random forest regression precision = {}".format(precision_score(Y_Test, predictionforest.round(), average='macro')))
+    print("Random forest regression recall = {}".format(recall_score(Y_Test, predictionforest.round(), average='macro')))
+    print("Random forest regression accuracy={}".format(accuracy_score(Y_Test, predictionforest.round())))
+
+
+
+ingredients_transformation = dict()
+ingredients_transformation['wine'] = ['maurin quina','rose wine','sparkling wine','barsol perfecto amor (aperitif wine)','wine','rosé wine','moscato wine','white wine','port wine','white port', 'port', 'ruby port','tawny port',
                                 'lbv port', 'red wine','lillet blanc','lillet rose','lillet rouge','champagne','champagne or prosecco','chilled champagne','madeira','sercial madeira','lustau east india solera','dry riesling','cardamaro',
-                                'prosecco','sparkling rose','quinquina','pimm\'s no.']
-selected_ingredients['scotch'] = ['islay scotch', 'single malt scotch', 'blended scotch', 'butterscotch schnapps', 'scotch whiskey', 'scotch whisky']
-selected_ingredients['whisky'] = ['nikka coffey grain whisky', 'nikka whisky taketsuru', 'j.h. cutter whisky', 'canadian whisky', 'johnnie walker','jim beam','jack daniel\'s','jack daniels','rye whiskey','whiskey','tennessee whiskey',
+                                'prosecco','sparkling rose','quinquina','pimm\'s no.', 'dubonnet rouge','dubonnet']
+ingredients_transformation['scotch'] = ['islay scotch', 'single malt scotch', 'blended scotch', 'butterscotch schnapps', 'scotch whiskey', 'scotch whisky']
+ingredients_transformation['whisky'] = ['nikka coffey grain whisky', 'nikka whisky taketsuru', 'j.h. cutter whisky', 'canadian whisky', 'johnnie walker','jim beam','jack daniel\'s','jack daniels','rye whiskey','whiskey','tennessee whiskey',
                                   'blended whiskey','irish whiskey', 'white whiskey','bourbon whiskey','whiskey barrel bitters','canadian whiskey','corn whiskey', 'bourbon', 'bourbon rye','old forester bourbon',
                                   'hirsch small batch reserve bourbon','genever', 'bols genever','prata cachaca','cachaca','glenrothes vintage reserve','everclear','rittenhouse rye','benriach curiositas single malt 10 yo',
                                   'yukon jack','grain alcohol','kirschwasser','crown royal','wild turkey','rock and rye']
-selected_ingredients['liquer'] = ['luxardo aperitivo', 'luxardo bitter', 'luxardo amaro abano','luxardo espresso italian liqueur','luxardo fernet', 'cointreau', 'luxardo amaretto di saschira', 'luxardo limoncello', 'strega',
+ingredients_transformation['liquer'] = ['luxardo aperitivo', 'luxardo bitter', 'luxardo amaro abano','luxardo espresso italian liqueur','luxardo fernet', 'cointreau', 'luxardo amaretto di saschira', 'luxardo limoncello', 'strega',
                                   'tuaca', 'orange liqueur', 'coconut liqueur', 'coffee liqueur', 'herbal liqueur', 'elderflower liqueur', 'liqueur de violette', 'walnut liqueur', 'chocolate liqueur', 'ginger liqueur',
                                   'pomegranate liqueur', 'cherry liqueur', 'strawberry liqueur', 'raspberry liqueur', 'godiva liqueur', 'banana liqueur', 'maraschino liqueur', 'melon liqueur', 'honey liqueur', 'blackberry liqueur',
                                   'vanilla liqueur', 'pear liqueur','hot shot tropical fruit liqueur','lychee liqueur','peach liqueur','hazelnut liqueur', 'hpnotiq liqueur', 'apricot liqueur', 'chambord liqueur', 'anise liqueur',
@@ -108,63 +194,63 @@ selected_ingredients['liquer'] = ['luxardo aperitivo', 'luxardo bitter', 'luxard
                                   'the king\'s ginger','anisette','old mr. boston anisette','aquavit','jägermeister','tia maria','hot damn','galliano','galliano l\'autentico','galliano l\'authentico','allspice dram',
                                   'cherry heering','frangelico','kahlua','sambuca','pisang ambon','amaretto','amaretto di saronno','ouzo','kummel','old mr. boston kummel','advocaat','limoncello','swedish punch',
                                   'margarita mix','crème de menthe','crème de noyau','crème de violette','crème de fraise','crème de framboise','crème de mûre','crème de pêche','crème de cassis','outhern comfort',
-                                  'st germain','kümmel','suze','ramazzotti','pimento dram','blue curaçao','orange curaçao','swedish flaggpunsch']
-selected_ingredients['pepper'] = ['pepper corns', 'black pepper', 'pepper', 'cayenne pepper', 'pepper and salt', 'habanero pepper', 'green bell pepper', 'serrano pepper']
-selected_ingredients['syrup'] = ['monin cane syrup', 'pomegranate syrup', 'small hand foods gum syrup', 'cardamom syrup','agave syrup', 'demerara syrup','gomme syrup','ginger syrup','maple syrup','lavender syrup',
+                                  'st germain','kümmel','suze','ramazzotti','pimento dram','blue curaçao','orange curaçao','swedish flaggpunsch', 'mandarine napoleon']
+ingredients_transformation['pepper'] = ['pepper corns', 'black pepper', 'pepper', 'cayenne pepper', 'pepper and salt', 'habanero pepper', 'green bell pepper', 'serrano pepper']
+ingredients_transformation['syrup'] = ['monin cane syrup', 'pomegranate syrup', 'small hand foods gum syrup', 'cardamom syrup','agave syrup', 'demerara syrup','gomme syrup','ginger syrup','maple syrup','lavender syrup',
                                  'hibiscus syrup','pineapple syrup','rhubarb syrup','orgeat syrup','pear syrup','honey syrup','raspberry syrup','mint syrup','chocolate syrup','corn syrup','chile syrup','imple syrup',
                                  'spiced syrup','blackberry syrup','lapsong souchang syrup','basil syrup','toffee syrup','cherry syrup','trawberry syrup','rose syrup','elderflower syrup','gooseberry syrup', 'grenadine',
                                  'cherry grenadine', 'orgeat', 'small hand foods orgeat', 'house-made orgeat', 'velvet falernum','falernum','maraschino cherry','maraschino']
-selected_ingredients['soda'] = ['fever-tree soda','soda water','club soda','grape soda','lime soda','liter ub soda']
-selected_ingredients['vermouth'] = ['tempus fugit alessio vermouth di torino rosso','tempus fugit alessio vermouth chinato', 'blanc vermouth', 'dry vermouth', 'dolin vermouth', 'red vermouth','cocchi vermouth di torino',
+ingredients_transformation['soda'] = ['fever-tree soda','soda water','club soda','grape soda','lime soda','liter ub soda']
+ingredients_transformation['vermouth'] = ['tempus fugit alessio vermouth di torino rosso','tempus fugit alessio vermouth chinato', 'blanc vermouth', 'dry vermouth', 'dolin vermouth', 'red vermouth','cocchi vermouth di torino',
                                     'dryvermouth','weet vermouth','bianco vermouth','carpano antica','punt e mes']
-selected_ingredients['cinnamon'] = ['cinnamon tincture','cannella cinnamon cordial', 'ground cinnamon']
-selected_ingredients['brandy'] = ['calvados', 'peach brandy', 'apple brandy', 'brandy de jerez', 'apricot brandy', 'c. drouin calvados selection', 'cherry brandy', 'pear brandy', 'blackberry brandy', 'coffee brandy',
+ingredients_transformation['cinnamon'] = ['cinnamon tincture','cannella cinnamon cordial', 'ground cinnamon']
+ingredients_transformation['brandy'] = ['calvados', 'peach brandy', 'apple brandy', 'brandy de jerez', 'apricot brandy', 'c. drouin calvados selection', 'cherry brandy', 'pear brandy', 'blackberry brandy', 'coffee brandy',
                                   'old mr. boston five star brandy', 'mr. boston five star brandy', 'cider brandy', 'plum brandy','c. drouin pommeau de normandie', 'pisco', 'barsol pisco','applejack']
-selected_ingredients['orange'] = ['orange cream citrate', 'orange flower water','orange blossom water', 'orange juice', 'orange marmalade', 'orange peel', 'mandarin orange', 'orange sorbet', 'orange bitters',
+ingredients_transformation['orange'] = ['orange cream citrate', 'orange flower water','orange blossom water', 'orange juice', 'orange marmalade', 'orange peel', 'mandarin orange', 'orange sorbet', 'orange bitters',
                                   'orange spiral', 'orange zest','orange twist','orange wheel','orange wedge','oranges','orange slice','orange (cut into )','orange slie']
-selected_ingredients['absinthe'] = ['vieux pontarlier absinthe francaise superieure', 'duplais swiss absinthe verte', 'absinthe or pastis', 'absinthe substitute', 'absinthe bitters', 'lucid absinthe', 'pernod absinthe']
-selected_ingredients['vodka'] = ['orange vodka','coconut vodka', 'vodka (or tequila)', 'lemon vodka','junmai sake','hangar 1 vodka','hophead vodka','grapefruit flavored vodka','pumpkin vodka','karlsson\'s gold vodka',
+ingredients_transformation['absinthe'] = ['vieux pontarlier absinthe francaise superieure', 'duplais swiss absinthe verte', 'absinthe or pastis', 'absinthe substitute', 'absinthe bitters', 'lucid absinthe', 'pernod absinthe']
+ingredients_transformation['vodka'] = ['orange vodka','coconut vodka', 'vodka (or tequila)', 'lemon vodka','junmai sake','hangar 1 vodka','hophead vodka','grapefruit flavored vodka','pumpkin vodka','karlsson\'s gold vodka',
                                  'absolut vodka','vanilla vodka','peach vodka','cranberry vodka','raspberry vodka','cherry vodka','citrus vodka','green apple vodka','ml  vodka','espresso vodka','cake vodka',
                                  'pear vodka','pomegranate vodka (van gogh)','. vodka','iter vodka','stolichnaya vodka','chocolate vodka','blueberry vodka','ginger vodka','vodka (skyy)','black vodka','of vodka',
                                  'plain vodka','goldschlager','absolut citron','absolut kurant','peach schnapps','peppermint schnapps','apple schnapps','rumple minze','sake']
-selected_ingredients['sherry'] = ['oloroso sherry', 'manzanilla sherry','amontillado sherry','pedro ximenez sherry','15 yo sherry','fino sherry','cream sherry','dry sherry','sweet sherry','palo cortado sherry','pedro ximénez sherry',
+ingredients_transformation['sherry'] = ['oloroso sherry', 'manzanilla sherry','amontillado sherry','pedro ximenez sherry','15 yo sherry','fino sherry','cream sherry','dry sherry','sweet sherry','palo cortado sherry','pedro ximénez sherry',
                                   'olorosso sherry']
-selected_ingredients['beer'] = ['lager', 'ginger beer', 'root beer','mexican beer','light beer','pale ale beer', 'ginger ale', 'ale','guinness stout','guinness','corona','chilled stout','raspberry lambic']
-selected_ingredients['gin'] = ['genevieve gin', 'junipero gin', 'barr hill gin', 'plymouth gin', 'aviation gin', 'citadelle gin', 'old tom gin', 'sloe gin', 'dry gin', 'mr. boston gin', 'mint-flavored gin',
+ingredients_transformation['beer'] = ['lager', 'ginger beer', 'root beer','mexican beer','light beer','pale ale beer', 'ginger ale', 'ale','guinness stout','guinness','corona','chilled stout','raspberry lambic']
+ingredients_transformation['gin'] = ['genevieve gin', 'junipero gin', 'barr hill gin', 'plymouth gin', 'aviation gin', 'citadelle gin', 'old tom gin', 'sloe gin', 'dry gin', 'mr. boston gin', 'mint-flavored gin',
                                'tanqueray gin', 'bombay sapphire gin', 'gin or vodka', 'beefeater gin', 'american gin', 'premium gin' , 'bulldog gin', 'gin (new amsterdam gin)', 'gin (hendrick\'s gin)']
-selected_ingredients['lemonade'] = ['fever-tree lemonade','good quality sharp lemonade', 'pink lemonade','kool-aid','cola','coca-cola','pepsi cola','7-up','mountain dew','zima','schweppes russchian','sprite','fruit punch']
-selected_ingredients['bitter'] = ['chocolate bitters', 'miracle mile forbidden barrel aged bitters', 'cranberry bitters', 'dr. adam\'s boker\'s bitters', 'grapefruit bitters', 'tempus fugit abbott\'s bitters',
+ingredients_transformation['lemonade'] = ['fever-tree lemonade','good quality sharp lemonade', 'pink lemonade','kool-aid','cola','coca-cola','pepsi cola','7-up','mountain dew','zima','schweppes russchian','sprite','fruit punch']
+ingredients_transformation['bitter'] = ['chocolate bitters', 'miracle mile forbidden barrel aged bitters', 'cranberry bitters', 'dr. adam\'s boker\'s bitters', 'grapefruit bitters', 'tempus fugit abbott\'s bitters',
                                   'peach bitters', 'cherry bitters','celery bitters','jerry thomas bitters','bitters','angostura bitters','old fashioned bitters','mole bitters','fennel bitters','apple bitters','black walnut bitters',
                                   'rhubarb bitters','bittermens burlesque bitters','aromatic bitters','peychaud bitters','bitter lemon','bob\'s bitters abbott\'s bitter','gentian bitters','hellfire bitters',
                                   'the bitter truth jerry thomas\' own decanter bitter', 'cardamom bitters', 'cognac', 'vs cognac','salt tincture','hine rare vsop','amer picon','gran classico','almond extract','almond flavoring',
                                   'christmas spirit','pineau des charentes','sarsaparilla','pastis','armagnac','cachaça','cachaça (leblon)','fernet branca','elderflower cordial']
-selected_ingredients['rum'] = ['coconut rum', 'pineapple rum','light rum','english harbour rum', 'pink pigeon rum', 'aged rum', 'white rum', 'black rum', 'banks 5 rum', 'añejo rum', 'spiced rum',
+ingredients_transformation['rum'] = ['coconut rum', 'pineapple rum','light rum','english harbour rum', 'pink pigeon rum', 'aged rum', 'white rum', 'black rum', 'banks 5 rum', 'añejo rum', 'spiced rum',
                                'dark rum', 'malibu rum', 'mr. boston rum', 'gold rum', 'bacardi rum', 'jamaica rum', '5-proof rum', 'anejo rum', '151 rum','smith & cross','bacardi limon','arrack']
-selected_ingredients['water'] = ['coconut water', 'tonic water','sparkling water','boiling water','cold water','carbonated water','topo chico mineral water','seltzer water','rose water','hot water',
+ingredients_transformation['water'] = ['coconut water', 'tonic water','sparkling water','boiling water','cold water','carbonated water','topo chico mineral water','seltzer water','rose water','hot water',
                                  'water (divided)','water melon','water (distilled)','of water','quarts water','ice','crushed ice','to 4 ice','of ice']
-selected_ingredients['milk'] = ['coconut milk','condense milk','almond milk','chocolate milk','whole milk','milk (or cream)','soy milk','cups  milk']
-selected_ingredients['tequila'] = ['blanco tequila', 'reposado tequila', 'gold tequila', 'anejo tequila', '. tequila', 'tequila rose', 'silver tequila', 'of tequila' , 'prickly pear tequila']
-selected_ingredients['olive'] = ['olive juice', 'olive brine', 'green olive']
-selected_ingredients['juice'] = ['grape juice', 'lychee juice','yuzu juice','pomegranate juice','tomato juice','strawberry juice','rhubarb juice','cranberry juice','lemon juice','mango juice','apple juice','fruit juice',
+ingredients_transformation['milk'] = ['coconut milk','condense milk','almond milk','chocolate milk','whole milk','milk (or cream)','soy milk','cups  milk']
+ingredients_transformation['tequila'] = ['blanco tequila', 'reposado tequila', 'gold tequila', 'anejo tequila', '. tequila', 'tequila rose', 'silver tequila', 'of tequila' , 'prickly pear tequila']
+ingredients_transformation['olive'] = ['olive juice', 'olive brine', 'green olive']
+ingredients_transformation['juice'] = ['grape juice', 'lychee juice','yuzu juice','pomegranate juice','tomato juice','strawberry juice','rhubarb juice','cranberry juice','lemon juice','mango juice','apple juice','fruit juice',
                                  'clam juice','raspberry juice','blueberry juice', 'carrot juice', 'pomegranite juice', 'agave nectar', 'peach nectar', 'mango nectar', 'apricot nectar', 'tamarind nectar']
-selected_ingredients['coffee'] = ['cold-brew coffee', 'espresso coffee', 'hot coffee', 'cold brewed coffee', 'coffee beans', 'tables instant coffee','espresso']
-selected_ingredients['lemon'] = ['fresh lemon', 'lemon sour', 'lemon sorbet', 'lemon peel','lemon slice','lemon twist','lemon wheel','lemon zest','lemon (cut into )','lemon (juied)','lemon, thinly slied','emon',
+ingredients_transformation['coffee'] = ['cold-brew coffee', 'espresso coffee', 'hot coffee', 'cold brewed coffee', 'coffee beans', 'tables instant coffee','espresso']
+ingredients_transformation['lemon'] = ['fresh lemon', 'lemon sour', 'lemon sorbet', 'lemon peel','lemon slice','lemon twist','lemon wheel','lemon zest','lemon (cut into )','lemon (juied)','lemon, thinly slied','emon',
                                  'lime sour','fresh lime','lime juice','lime','lime vodka', 'lime peel','lime twist','lime wheel', 'lime wedge', 'lime cordial', 'lime (cut into )', 'lime zest', 'lime (slied)',
                                  'lime slice','lime(cut into )', 'lime (juied)', 'lemon wedge','lemons (slied)','ime','squeeze of ime']
-selected_ingredients['egg'] = ['egg white', 'egg yolk', 'whole egg', 'egg yok', 'sma egg', 'arge egg']
-selected_ingredients['tea'] = ['chai tea','iced tea','tea (chilled)','chamomile tea','black tea','green tea leaves','hibiscus tea']
-selected_ingredients['cider'] = ['apple cider', 'hard cider', 'sparkling cider']
-selected_ingredients['grapefruit'] = ['grapefruit twist','grapefruit wedge','grapefruit slice','grapefruit peel']
-selected_ingredients['ginger'] = ['fresh ginger','crystallised ginger','ground ginger','thin slice ginger']
-selected_ingredients['butter'] = ['spiced butter','table butter','butter (softened)']
-selected_ingredients['cream'] = ['heavy cream','whipped cream','whipping cream','light cream','irish cream','chocolate ice-cream','sweet cream','amarula cream','creme de banane','coconut cream',
+ingredients_transformation['egg'] = ['egg white', 'egg yolk', 'whole egg', 'egg yok', 'sma egg', 'arge egg']
+ingredients_transformation['tea'] = ['chai tea','iced tea','tea (chilled)','chamomile tea','black tea','green tea leaves','hibiscus tea']
+ingredients_transformation['cider'] = ['apple cider', 'hard cider', 'sparkling cider']
+ingredients_transformation['grapefruit'] = ['grapefruit twist','grapefruit wedge','grapefruit slice','grapefruit peel']
+ingredients_transformation['ginger'] = ['fresh ginger','crystallised ginger','ground ginger','thin slice ginger']
+ingredients_transformation['butter'] = ['spiced butter','table butter','butter (softened)']
+ingredients_transformation['cream'] = ['heavy cream','whipped cream','whipping cream','light cream','irish cream','chocolate ice-cream','sweet cream','amarula cream','creme de banane','coconut cream',
                                  'fresh sweet n\' sour','sweet and sour','vanilla cream','creme de cassis','creme de mure','creme de banana','creme de noyaux','creme de violette','creme de menthe','creme yvette']
-selected_ingredients['sauce'] = ['worcestershire sauce','tabasco sauce','soy sauce','hot sauce','tomato catsup']
-selected_ingredients['cloves'] = ['whole cloves','ground cloves']
-selected_ingredients['cucumber'] = ['cucumber peel','cucumber juice','cucumber slice']
+ingredients_transformation['sauce'] = ['worcestershire sauce','tabasco sauce','soy sauce','hot sauce','tomato catsup']
+ingredients_transformation['cloves'] = ['whole cloves','ground cloves']
+ingredients_transformation['cucumber'] = ['cucumber peel','cucumber juice','cucumber slice']
 
 # garnish
-selected_ingredients['common_ingr'] = ['mandarine napoleon', 'citric acid', 'dubonnet rouge','dubonnet', 'pineapple gum', 'pineapple', 'pineapple wedge', 'pineapple leaves', 'cup d pineapple',
+ingredients_transformation['common_ingr'] = ['citric acid', 'pineapple gum', 'pineapple', 'pineapple wedge', 'pineapple leaves', 'cup d pineapple',
                                         'green chartreuse', 'yellow chartreuse', 'tempus fugit kina l\'aero d\'or', 'tonic', 'fever-tree tonic', 'drambuie', 'horchata', 'briottet creme de framboise (raspberry)','crème yvette',
                                         'grand marnier', 'creme de cacao', 'crème de cacao', 'salers gentiane aperitif', 'nutmeg', 'ground nutmeg', 'grated nutmeg','montelobos mezcal','mezcal',
                                         'salt','celery salt','coarse salt','table salt', 'cranberries', 'package cranberries','cup cranberries','cocchi americano', 'creole shrub', 'blueberry shrub',
