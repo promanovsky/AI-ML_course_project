@@ -64,7 +64,5 @@ df = df[(df.T != 0).any()]
 print(df.shape)
 print(list(df.columns))
 
-
-
 df.to_csv(curr_dir +'/datasets/engineering_in_progress_out.csv', index=False)
 print('done')

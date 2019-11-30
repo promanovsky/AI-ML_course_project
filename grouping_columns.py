@@ -1,0 +1,43 @@
+import pandas as pd
+import os
+from common.tools import ingredients_transformation, find_group_for_ingredient
+
+pd.set_option('display.max_columns', 100)
+pd.set_option('display.max_rows', 50)
+
+curr_dir = os.path.abspath(os.curdir)
+df = pd.read_csv(curr_dir + '/datasets/engineering_in_progress_out.csv')
+print(df.shape)
+
+columns_to_group = list(df.columns)
+columns_to_group.remove('Cocktail Name')
+columns_to_group.remove('rating')
+
+def check_column(column, df):
+    if not column in columns_to_group:
+        zeros = [0 for x in range(df.shape[0])]
+        df[column] = zeros
+
+del_ingredients = set()
+for key in ingredients_transformation.keys():
+    check_column(key, df)
+    for val in ingredients_transformation[key]:
+        df[key] = df[key] + df[val]
+        del_ingredients.add(val)
+
+print(len(del_ingredients), len(columns_to_group))
+
+df = df.drop(del_ingredients, axis=1)
+grupped_columns = list(df.columns)
+print(grupped_columns)
+grupped_columns.remove('rating')
+grupped_columns.append('rating')
+print(grupped_columns)
+df = df[grupped_columns]
+df['rating'] = df['rating'].round()
+rating_values = df['rating'].values.tolist()
+rating_values = [y if y >= 3 else 2 for y in rating_values]
+df['rating'] = rating_values
+df.to_csv(curr_dir +'/datasets/grouped_columns.csv', index=False)
+
+#print(find_group_for_ingredient('stolichnaya vodka'),find_group_for_ingredient('whiskey barrel bitters'))

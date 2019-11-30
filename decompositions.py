@@ -9,7 +9,10 @@ from sklearn.manifold import LocallyLinearEmbedding
 from keras.layers import Input, Dense
 from keras.models import Model
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder
 
+from common.tools import forest_classification_test, gradient_boosting_classification_test, forest_regression_test, \
+    gradient_boosting_regression_test
 
 def doPca2(data):
     pca = PCA(n_components=2)
@@ -71,3 +74,79 @@ def doAE(data):
     encoder = Model(input_layer, encoded)
     X_ae = encoder.predict(data)
     return X_ae
+
+def doPca_decomposition_demonstration(scaled_data, labels_df):
+    pca2, pca3, pca30 = doPca2(scaled_data), doPca3(scaled_data), doPcaN(scaled_data, 30)
+    print('PCA CLASSIFICATION TESTS >>>>>>>>>>>>>>>>>>>>>>')
+    Y = LabelEncoder().fit_transform(labels_df.round())
+    print('     PCA 2 components >>>>>>>>>>>')
+    forest_classification_test(pca2, Y)
+    gradient_boosting_classification_test(pca2, Y)
+
+    print('     PCA 3 components >>>>>>>>>>>')
+    forest_classification_test(pca3, Y)
+    gradient_boosting_classification_test(pca3, Y)
+
+    print('     PCA N=30 components >>>>>>>>>>>')
+    forest_classification_test(pca30, Y)
+    gradient_boosting_classification_test(pca30, Y)
+
+    print('PCA REGRESSION TESTS >>>>>>>>>>>>>>>>>>>>>>')
+    print('     PCA 2 components >>>>>>>>>>>')
+    forest_regression_test(pca2, Y)
+    gradient_boosting_regression_test(pca2, Y)
+
+    print('     PCA 3 components >>>>>>>>>>>')
+    forest_regression_test(pca3, Y)
+    gradient_boosting_regression_test(pca3, Y)
+
+    print('     PCA 30 components >>>>>>>>>>>')
+    forest_regression_test(pca30, Y)
+    gradient_boosting_regression_test(pca30, Y)
+
+def do_tsne_decomposition_demonstration(scaled_data, labels_df):
+    tSNE = doTsne(scaled_data, 3)
+    print('TSNE CLASSIFICATION TESTS >>>>>>>>>>>>>>>>>>>>>>')
+    Y = LabelEncoder().fit_transform(labels_df.round())
+    forest_classification_test(tSNE, Y)
+    gradient_boosting_classification_test(tSNE, Y)
+
+    print('TSNE REGRESSION TESTS >>>>>>>>>>>>>>>>>>>>>>')
+    forest_regression_test(tSNE, Y)
+    gradient_boosting_regression_test(tSNE, Y)
+
+def do_lda_decomposition_demonstration(scaled_data, labels_df, n_components=3):
+    Y = LabelEncoder().fit_transform(labels_df.round())
+    lda = doLda(scaled_data,Y, n_components)
+    print('LDA with {} components CLASSIFICATION TESTS >>>>>>>>>>>>>>>>>>>>>>'.format(n_components))
+    forest_classification_test(lda, Y)
+    gradient_boosting_classification_test(lda, Y)
+
+    print('LDA with {} components REGRESSION TESTS >>>>>>>>>>>>>>>>>>>>>>'.format(n_components))
+    #Y = LabelEncoder().fit_transform(df['rating'])
+    forest_regression_test(lda, Y)
+    gradient_boosting_regression_test(lda, Y)
+
+def do_lle_decomposition_demonstration(scaled_data, labels_df, n_components=3):
+    lle = doLle(scaled_data,n_components)
+    print('LLE with {} components CLASSIFICATION TESTS >>>>>>>>>>>>>>>>>>>>>>'.format(n_components))
+    Y = LabelEncoder().fit_transform(labels_df.round())
+    forest_classification_test(lle, Y)
+    gradient_boosting_classification_test(lle, Y)
+
+    print('LLE with {} components REGRESSION TESTS >>>>>>>>>>>>>>>>>>>>>>'.format(n_components))
+    #Y = LabelEncoder().fit_transform(df['rating'])
+    forest_regression_test(lle, Y)
+    gradient_boosting_regression_test(lle, Y)
+
+def do_AE_decomposition_demonstration(scaled_data, labels_df):
+    ae_data = doAE(scaled_data)
+    print('AE DECOMPOSITION CLASSIFICATION TESTS >>>>>>>>>>>>>>>>>>>>>>')
+    Y = LabelEncoder().fit_transform(labels_df.round())
+    forest_classification_test(ae_data, Y)
+    gradient_boosting_classification_test(ae_data, Y)
+
+    print('AE DECOMPOSITION REGRESSION TESTS >>>>>>>>>>>>>>>>>>>>>>')
+    #Y = LabelEncoder().fit_transform(df['rating'])
+    forest_regression_test(ae_data, Y)
+    gradient_boosting_regression_test(ae_data, Y)

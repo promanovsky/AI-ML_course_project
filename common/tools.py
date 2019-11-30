@@ -159,7 +159,7 @@ def forest_regression_test(X, Y):
     print('mean_squared_error',mean_squared_error(Y_Test,predictionforest))
     print("Random forest regression precision = {}".format(precision_score(Y_Test, predictionforest.round(), average='macro')))
     print("Random forest regression recall = {}".format(recall_score(Y_Test, predictionforest.round(), average='macro')))
-    print("Random forest regression accuracy={}".format(accuracy_score(Y_Test, predictionforest.round())))
+    print("Random forest regression accuracy = {}".format(accuracy_score(Y_Test, predictionforest.round())))
 
 def gradient_boosting_regression_test(X, Y):
     X_Train, X_Test, Y_Train, Y_Test = train_test_split(X, Y,
@@ -172,7 +172,7 @@ def gradient_boosting_regression_test(X, Y):
     print('mean_squared_error',mean_squared_error(Y_Test,predictionforest))
     print("Random forest regression precision = {}".format(precision_score(Y_Test, predictionforest.round(), average='macro')))
     print("Random forest regression recall = {}".format(recall_score(Y_Test, predictionforest.round(), average='macro')))
-    print("Random forest regression accuracy={}".format(accuracy_score(Y_Test, predictionforest.round())))
+    print("Random forest regression accuracy = {}".format(accuracy_score(Y_Test, predictionforest.round())))
 
 def showXGBTrainImportance(data, targetColumn, feature_columns, needSave=False):
     xgbTrainData = xgb.DMatrix(data, targetColumn, feature_names=feature_columns)
@@ -270,3 +270,9 @@ ingredients_transformation['common_ingr'] = ['citric acid', 'pineapple gum', 'pi
                                         'frozen blueberries','peach','peach purée','b & b','thyme sprig','sprigs avender','vania bean','basil leaves','cup raspberries','raspberries','edible flower','blackberries',
                                        'cocktail onion','ardamom pods','mustard','red appe','bay leaf','bay eaves','smoked paprika','our mix','3- package gelatin (any flavor)','s gelatin','sage eaves','fennel seed',
                                        'dried rose buds','marmalade','blueberry preserve','coco lopez','half and half','raspberry preserve','pea-sized doop of wasabi paste','chambord','ilantro leaves','oves','eggnog','sliesuumber']
+def find_group_for_ingredient(ingr_name):
+    if ingr_name in ingredients_transformation.keys():
+        return ingr_name
+    for key, val in ingredients_transformation.items():
+        if ingr_name in val:
+            return key
