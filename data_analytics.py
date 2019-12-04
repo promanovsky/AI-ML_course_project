@@ -33,7 +33,8 @@ def do_experiment(dataset_path):
     #showXGBTrainImportance(min_max_scaled_columns, df['rating'], columns_to_scale)
 
     # классификация по рейтингу предварительно его округлив
-    Y = LabelEncoder().fit_transform(df['rating'].round())
+    # Y = LabelEncoder().fit_transform(df['rating'].round())
+    Y = LabelEncoder().fit_transform(df['rating'])
 
     forest_classification_test(standart_scaled, Y)
     #forest_classification_test(min_max_scaled, Y)
@@ -43,7 +44,7 @@ def do_experiment(dataset_path):
 
 
     # регрессия (предсказание рейтинга)
-    #Y = LabelEncoder().fit_transform(df['rating'])
+    # Y = LabelEncoder().fit_transform(df['rating'])
 
     forest_regression_test(standart_scaled, Y)
     #forest_regression_test(min_max_scaled, Y)

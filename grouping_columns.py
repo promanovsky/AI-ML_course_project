@@ -22,8 +22,9 @@ del_ingredients = set()
 for key in ingredients_transformation.keys():
     check_column(key, df)
     for val in ingredients_transformation[key]:
-        df[key] = df[key] + df[val]
-        del_ingredients.add(val)
+        if val in columns_to_group:
+            df[key] = df[key] + df[val]
+            del_ingredients.add(val)
 
 print(len(del_ingredients), len(columns_to_group))
 
@@ -34,10 +35,14 @@ grupped_columns.remove('rating')
 grupped_columns.append('rating')
 print(grupped_columns)
 df = df[grupped_columns]
-df['rating'] = df['rating'].round()
-rating_values = df['rating'].values.tolist()
-rating_values = [y if y >= 3 else 2 for y in rating_values]
-df['rating'] = rating_values
-df.to_csv(curr_dir +'/datasets/grouped_columns.csv', index=False)
 
+#df['rating'] = df['rating'].round()
+#rating_values = df['rating'].values.tolist()
+#rating_values = [y if y >= 3 else 2 for y in rating_values]
+#df['rating'] = rating_values
+
+df.to_csv(curr_dir +'/datasets/grouped_columns.csv', index=False)
+print(df.shape)
+print('done')
+# (4326, 38)
 #print(find_group_for_ingredient('stolichnaya vodka'),find_group_for_ingredient('whiskey barrel bitters'))

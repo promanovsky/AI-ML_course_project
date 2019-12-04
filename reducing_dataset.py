@@ -1,7 +1,5 @@
 import pandas as pd
 import os
-import io
-import missingno as msno
 import re
 
 def findWholeWord(w):
@@ -66,3 +64,4 @@ print(list(df.columns))
 
 df.to_csv(curr_dir +'/datasets/engineering_in_progress_out.csv', index=False)
 print('done')
+# (4326, 792)

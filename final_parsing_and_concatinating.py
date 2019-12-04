@@ -45,7 +45,8 @@ for ingr in new_ingredients:
     zeros = [0 for x in range(df.shape[0])]
     df[ingr] = zeros
 
-rates = [uniform(2,4) for x in range(df.shape[0])]
+#rates = [uniform(2,4) for x in range(df.shape[0])]
+rates = [0 for x in range(df.shape[0])]
 df = df.assign(rating=rates)
 
 print(df.shape)
@@ -73,3 +74,4 @@ print(df.shape)
 
 df.to_csv(curr_dir +'/datasets/final_dataset.csv', index=False)
 print('done')
+# (4326, 3660)
