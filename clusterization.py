@@ -1,11 +1,12 @@
 from sklearn import metrics
+import numpy as np
 import pandas as pd
 import os
-from sklearn.cluster import KMeans, AgglomerativeClustering, AffinityPropagation, SpectralClustering, \
-    FeatureAgglomeration
-from scipy.cluster import hierarchy
-from scipy.spatial.distance import pdist
+from sklearn.cluster import KMeans, AgglomerativeClustering, AffinityPropagation, SpectralClustering, MiniBatchKMeans
+from sklearn.metrics import confusion_matrix
 import matplotlib.pyplot as plt
+import seaborn as sns; sns.set()
+from sklearn.preprocessing import StandardScaler, LabelEncoder, MinMaxScaler
 
 """
 https://habr.com/ru/company/ods/blog/325654/
@@ -30,13 +31,34 @@ X = df[columns].to_numpy()
 y = df['rating'].to_numpy()
 print(X.shape, y.shape)
 
+"""
+scaler = MinMaxScaler()
+scaler.fit(X)
+X = scaler.fit_transform(X)
+y = LabelEncoder().fit_transform(y)
+print('Y',list(y))
+"""
+
+def draw_inertia_for_clusterization_method(method, label):
+    inertia = []
+    for k in range(1, 10):
+        m = method(n_clusters=k, random_state=42).fit(X)
+        inertia.append(np.sqrt(m.inertia_))
+
+    plt.plot(range(1, 10), inertia, marker='s')
+    plt.xlabel('$k$')
+    plt.ylabel('$J(C_k)$')
+    plt.title(label)
+    plt.show()
+
+draw_inertia_for_clusterization_method(KMeans, 'KMeans')
+draw_inertia_for_clusterization_method(MiniBatchKMeans, 'MiniBatchKMeans')
+
 algorithms = []
-algorithms.append(KMeans(n_clusters=6, random_state=42))
-algorithms.append(AffinityPropagation())
-algorithms.append(SpectralClustering(n_clusters=4, random_state=42,
-                                     affinity='nearest_neighbors'))
-algorithms.append(AgglomerativeClustering(n_clusters=4))
-#algorithms.append(FeatureAgglomeration(n_clusters=4))
+algorithms.append(KMeans(n_clusters=7, random_state=42))
+algorithms.append(SpectralClustering(n_clusters=7, random_state=42, affinity='nearest_neighbors'))
+algorithms.append(AgglomerativeClustering(n_clusters=7))
+algorithms.append(MiniBatchKMeans(n_clusters=5))
 
 data = []
 for algo in algorithms:
@@ -49,26 +71,24 @@ for algo in algorithms:
         'V-measure': metrics.v_measure_score(y, algo.labels_),
         'Silhouette': metrics.silhouette_score(X, algo.labels_)}))
 
-results = pd.DataFrame(data=data, columns=['ARI', 'AMI', 'Homogenity',
-                                           'Completeness', 'V-measure',
-                                           'Silhouette'],
-                       index=['K-means', 'Affinity',
-                              'Spectral', 'Agglomerative'])
+results = pd.DataFrame(data=data, columns=['ARI', 'AMI', 'Homogenity', 'Completeness', 'V-measure', 'Silhouette'],
+                       index=['K-means', 'Spectral', 'Agglomerative', 'MiniBatchKMeans'])
 
 print(results)
 
-row_test = df_test.iloc[:100,]
-test_val = row_test.to_numpy()
-#ind = algorithms[0].predict(test_val)
-res = algorithms[0].fit_predict(test_val)
-print('predicted ratings >>>', res)
-#print(algorithms[0].labels_)
+#row_test = df_test.iloc[:100,]
+test_val = df_test.to_numpy()
 
-"""
-distance_mat = pdist(X) # pdist посчитает нам верхний треугольник матрицы попарных расстояний
+def draw_confustion_matrix(pred, n_clusters):
+    mat = confusion_matrix(y.round(), pred.round())
+    sns.heatmap(mat.T, square=True, annot=True, fmt='d', cbar=False,
+                xticklabels = range(n_clusters),
+                yticklabels = range(n_clusters))
+    plt.xlabel('true label')
+    plt.ylabel('predicted label')
+    plt.show()
 
-Z = hierarchy.linkage(distance_mat, 'single') # linkage — реализация агломеративного алгоритма
-plt.figure(figsize=(10, 5))
-dn = hierarchy.dendrogram(Z, color_threshold=0.5)
-plt.show()
-"""
+for alg, n_clusters in zip(algorithms, [7,7,7,5]):
+    pred = alg.fit_predict(X)
+    print(alg.labels_[pred])
+    #draw_confustion_matrix(y[pred], n_clusters)
