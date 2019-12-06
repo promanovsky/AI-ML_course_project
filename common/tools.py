@@ -7,6 +7,7 @@ from sklearn.ensemble import RandomForestRegressor
 import matplotlib.pyplot as plt
 import numpy as np
 import xgboost as xgb
+from sklearn.tree import DecisionTreeClassifier
 
 measures = dict()
 measures['dash'] = 0.462
@@ -99,6 +100,7 @@ def uncodeDecode(str):
 
 def draw_confusion_matrix(y_true, y_pred):
     cm=confusion_matrix(y_true, y_pred)
+    print(cm)
     fig, ax = plt.subplots()
     im = ax.imshow(cm, interpolation='nearest', cmap=plt.cm.Blues)
     ax.figure.colorbar(im, ax=ax)
@@ -131,9 +133,19 @@ def forest_classification_test(X, Y):
     trainedforest = RandomForestClassifier(n_estimators=500, verbose=1).fit(X_Train,Y_Train)
     print('Random forest classifier test training time =', time.process_time() - start)
     predictionforest = trainedforest.predict(X_Test)
-    print(confusion_matrix(Y_Test,predictionforest))
     draw_confusion_matrix(Y_Test, predictionforest)
     print(classification_report(Y_Test,predictionforest))
+
+def tree_classification_test(X, Y):
+    X_Train, X_Test, Y_Train, Y_Test = train_test_split(X, Y,
+                                                        test_size = 0.25,
+                                                        random_state = 101)
+    start = time.process_time()
+    trainedtree = DecisionTreeClassifier().fit(X_Train,Y_Train)
+    print('Decision Tree classifier test training time =', time.process_time() - start)
+    predictiontree = trainedtree.predict(X_Test)
+    draw_confusion_matrix(Y_Test, predictiontree)
+    print(classification_report(Y_Test,predictiontree))
 
 def gradient_boosting_classification_test(X, Y):
     X_Train, X_Test, Y_Train, Y_Test = train_test_split(X, Y,
@@ -143,7 +155,6 @@ def gradient_boosting_classification_test(X, Y):
     trainedforest = GradientBoostingClassifier(n_estimators=500, verbose=1).fit(X_Train,Y_Train)
     print('Gradient boosting classifier test training time =', time.process_time() - start)
     predictionforest = trainedforest.predict(X_Test)
-    print(confusion_matrix(Y_Test,predictionforest))
     draw_confusion_matrix(Y_Test, predictionforest)
     print(classification_report(Y_Test,predictionforest))
 

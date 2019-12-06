@@ -3,7 +3,7 @@ import os
 from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import LabelEncoder
 from common.tools import forest_regression_test, forest_classification_test, gradient_boosting_classification_test, \
-    gradient_boosting_regression_test, showXGBTrainImportance
+    gradient_boosting_regression_test, showXGBTrainImportance, tree_classification_test
 from decompositions import doPca_decomposition_demonstration, do_tsne_decomposition_demonstration, do_lda_decomposition_demonstration, \
     do_lle_decomposition_demonstration,do_AE_decomposition_demonstration
 
@@ -36,6 +36,7 @@ def do_experiment(dataset_path):
     # Y = LabelEncoder().fit_transform(df['rating'].round())
     Y = LabelEncoder().fit_transform(df['rating'])
 
+    tree_classification_test(standart_scaled, Y)
     forest_classification_test(standart_scaled, Y)
     #forest_classification_test(min_max_scaled, Y)
 

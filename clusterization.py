@@ -2,11 +2,12 @@ from sklearn import metrics
 import numpy as np
 import pandas as pd
 import os
-from sklearn.cluster import KMeans, AgglomerativeClustering, AffinityPropagation, SpectralClustering, MiniBatchKMeans
-from sklearn.metrics import confusion_matrix
+from sklearn.cluster import KMeans, MiniBatchKMeans
 import matplotlib.pyplot as plt
-import seaborn as sns; sns.set()
-from sklearn.preprocessing import StandardScaler, LabelEncoder, MinMaxScaler
+import seaborn as sns
+from decompositions import doTsne, doLle, doPcaN
+
+sns.set()
 
 """
 https://habr.com/ru/company/ods/blog/325654/
@@ -22,6 +23,15 @@ columns = list(df_csv.columns)
 columns.remove('Cocktail Name')
 columns.remove('rating')
 
+def draw2D_points(data, labels, title):
+    plt.figure(figsize=(12,10))
+    plt.scatter(data[:, 0], data[:, 1], c=labels,
+                edgecolor='none', alpha=0.7, s=40,
+                cmap=plt.cm.get_cmap('nipy_spectral', 10))
+    plt.colorbar()
+    plt.title(title)
+    plt.show()
+
 df = df_csv.loc[df_csv['rating'] != 0]
 
 df_test = df_csv.loc[df_csv['rating'] == 0]
@@ -31,15 +41,16 @@ X = df[columns].to_numpy()
 y = df['rating'].to_numpy()
 print(X.shape, y.shape)
 
-"""
-scaler = MinMaxScaler()
-scaler.fit(X)
-X = scaler.fit_transform(X)
-y = LabelEncoder().fit_transform(y)
-print('Y',list(y))
-"""
+draw2D_points(doPcaN(X, 2), y, 't-SNE')
+draw2D_points(doPcaN(df_csv[columns].to_numpy(), 2), df_csv['rating'].to_numpy(), 'pca 2 components')
 
-def draw_inertia_for_clusterization_method(method, label):
+draw2D_points(doTsne(X, 2), y, 't-SNE')
+draw2D_points(doTsne(df_csv[columns].to_numpy(), 2), df_csv['rating'].to_numpy(), 't-SNE')
+
+draw2D_points(doLle(X, 2), y, 'lle')
+draw2D_points(doLle(df_csv[columns].to_numpy(), 2), df_csv['rating'].to_numpy(), 'lle')
+
+def draw_inertia_for_clusterization_method(method, title):
     inertia = []
     for k in range(1, 10):
         m = method(n_clusters=k, random_state=42).fit(X)
@@ -48,7 +59,7 @@ def draw_inertia_for_clusterization_method(method, label):
     plt.plot(range(1, 10), inertia, marker='s')
     plt.xlabel('$k$')
     plt.ylabel('$J(C_k)$')
-    plt.title(label)
+    plt.title(title)
     plt.show()
 
 draw_inertia_for_clusterization_method(KMeans, 'KMeans')
@@ -56,8 +67,6 @@ draw_inertia_for_clusterization_method(MiniBatchKMeans, 'MiniBatchKMeans')
 
 algorithms = []
 algorithms.append(KMeans(n_clusters=7, random_state=42))
-algorithms.append(SpectralClustering(n_clusters=7, random_state=42, affinity='nearest_neighbors'))
-algorithms.append(AgglomerativeClustering(n_clusters=7))
 algorithms.append(MiniBatchKMeans(n_clusters=5))
 
 data = []
@@ -71,24 +80,8 @@ for algo in algorithms:
         'V-measure': metrics.v_measure_score(y, algo.labels_),
         'Silhouette': metrics.silhouette_score(X, algo.labels_)}))
 
-results = pd.DataFrame(data=data, columns=['ARI', 'AMI', 'Homogenity', 'Completeness', 'V-measure', 'Silhouette'],
-                       index=['K-means', 'Spectral', 'Agglomerative', 'MiniBatchKMeans'])
+results = pd.DataFrame(data=data,
+                       columns=['ARI', 'AMI', 'Homogenity', 'Completeness', 'V-measure', 'Silhouette'],
+                       index=['K-means', 'MiniBatchKMeans'])
 
 print(results)
-
-#row_test = df_test.iloc[:100,]
-test_val = df_test.to_numpy()
-
-def draw_confustion_matrix(pred, n_clusters):
-    mat = confusion_matrix(y.round(), pred.round())
-    sns.heatmap(mat.T, square=True, annot=True, fmt='d', cbar=False,
-                xticklabels = range(n_clusters),
-                yticklabels = range(n_clusters))
-    plt.xlabel('true label')
-    plt.ylabel('predicted label')
-    plt.show()
-
-for alg, n_clusters in zip(algorithms, [7,7,7,5]):
-    pred = alg.fit_predict(X)
-    print(alg.labels_[pred])
-    #draw_confustion_matrix(y[pred], n_clusters)
