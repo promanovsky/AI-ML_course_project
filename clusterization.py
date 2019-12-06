@@ -6,6 +6,7 @@ from sklearn.cluster import KMeans, MiniBatchKMeans
 import matplotlib.pyplot as plt
 import seaborn as sns
 from decompositions import doTsne, doLle, doPcaN
+from sklearn.neighbors import NearestNeighbors
 
 sns.set()
 
@@ -41,15 +42,6 @@ X = df[columns].to_numpy()
 y = df['rating'].to_numpy()
 print(X.shape, y.shape)
 
-draw2D_points(doPcaN(X, 2), y, 't-SNE')
-draw2D_points(doPcaN(df_csv[columns].to_numpy(), 2), df_csv['rating'].to_numpy(), 'pca 2 components')
-
-draw2D_points(doTsne(X, 2), y, 't-SNE')
-draw2D_points(doTsne(df_csv[columns].to_numpy(), 2), df_csv['rating'].to_numpy(), 't-SNE')
-
-draw2D_points(doLle(X, 2), y, 'lle')
-draw2D_points(doLle(df_csv[columns].to_numpy(), 2), df_csv['rating'].to_numpy(), 'lle')
-
 def draw_inertia_for_clusterization_method(method, title):
     inertia = []
     for k in range(1, 10):
@@ -64,6 +56,15 @@ def draw_inertia_for_clusterization_method(method, title):
 
 draw_inertia_for_clusterization_method(KMeans, 'KMeans')
 draw_inertia_for_clusterization_method(MiniBatchKMeans, 'MiniBatchKMeans')
+
+draw2D_points(doPcaN(X, 2), y, 't-SNE')
+draw2D_points(doPcaN(df_csv[columns].to_numpy(), 2), df_csv['rating'].to_numpy(), 'pca 2 components')
+
+draw2D_points(doTsne(X, 2), y, 't-SNE')
+draw2D_points(doTsne(df_csv[columns].to_numpy(), 2), df_csv['rating'].to_numpy(), 't-SNE')
+
+draw2D_points(doLle(X, 2), y, 'lle')
+draw2D_points(doLle(df_csv[columns].to_numpy(), 2), df_csv['rating'].to_numpy(), 'lle')
 
 algorithms = []
 algorithms.append(KMeans(n_clusters=7, random_state=42))
@@ -85,3 +86,14 @@ results = pd.DataFrame(data=data,
                        index=['K-means', 'MiniBatchKMeans'])
 
 print(results)
+
+decomposition_methods = [doPcaN, doTsne, doLle]
+data = []
+for algo in algorithms:
+    for decomp in decomposition_methods:
+        X_decomp = decomp(X, 2)
+        algo.fit(X_decomp)
+        draw2D_points(X, algo.labels_, str(type(algo)) + ' ' + str(decomp))
+
+
+# NearestNeighbors !!!

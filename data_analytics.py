@@ -47,10 +47,10 @@ def do_experiment(dataset_path):
     # регрессия (предсказание рейтинга)
     # Y = LabelEncoder().fit_transform(df['rating'])
 
-    forest_regression_test(standart_scaled, Y)
+    #forest_regression_test(standart_scaled, Y)
     #forest_regression_test(min_max_scaled, Y)
 
-    gradient_boosting_regression_test(standart_scaled, Y)
+    #gradient_boosting_regression_test(standart_scaled, Y)
     #gradient_boosting_regression_test(min_max_scaled, Y)
 
     scaled_data = standart_scaled
@@ -73,14 +73,14 @@ def do_experiment(dataset_path):
 # do_AE_decomposition_demonstration(scaled_data, label_df)
 
 scaled_data, label_df = do_experiment('/datasets/grouped_columns.csv')
-doPca_decomposition_demonstration(scaled_data, label_df)
+# doPca_decomposition_demonstration(scaled_data, label_df)
 
-do_tsne_decomposition_demonstration(scaled_data, label_df)
+# do_tsne_decomposition_demonstration(scaled_data, label_df)
 
-do_lda_decomposition_demonstration(scaled_data, label_df,3)
-do_lda_decomposition_demonstration(scaled_data, label_df,30)
+# do_lda_decomposition_demonstration(scaled_data, label_df,3)
+# do_lda_decomposition_demonstration(scaled_data, label_df,30)
 
-do_lle_decomposition_demonstration(scaled_data, label_df,3)
-do_lle_decomposition_demonstration(scaled_data, label_df,30)
+# do_lle_decomposition_demonstration(scaled_data, label_df,3)
+# do_lle_decomposition_demonstration(scaled_data, label_df,30)
 
-do_AE_decomposition_demonstration(scaled_data, label_df)
+# do_AE_decomposition_demonstration(scaled_data, label_df)

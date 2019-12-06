@@ -8,6 +8,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 import xgboost as xgb
 from sklearn.tree import DecisionTreeClassifier
+import seaborn as sns
+
+sns.set()
 
 measures = dict()
 measures['dash'] = 0.462
@@ -123,7 +126,6 @@ def draw_confusion_matrix(y_true, y_pred):
                     color="white" if cm[i, j] > thresh else "black")
     fig.tight_layout()
     plt.show()
-    return
 
 def forest_classification_test(X, Y):
     X_Train, X_Test, Y_Train, Y_Test = train_test_split(X, Y,
@@ -167,10 +169,10 @@ def forest_regression_test(X, Y):
     trainedforest = RandomForestRegressor(n_estimators=500, verbose=1).fit(X_Train,Y_Train)
     print('Random forest regression test training time =', time.process_time() - start)
     predictionforest = trainedforest.predict(X_Test)
-    print('mean_squared_error',mean_squared_error(Y_Test,predictionforest))
-    print("Random forest regression precision = {}".format(precision_score(Y_Test, predictionforest.round(), average='macro')))
-    print("Random forest regression recall = {}".format(recall_score(Y_Test, predictionforest.round(), average='macro')))
-    print("Random forest regression accuracy = {}".format(accuracy_score(Y_Test, predictionforest.round())))
+    print('RandomForestRegressor mean_squared_error',mean_squared_error(Y_Test,predictionforest))
+    print("RandomForestRegressor precision = {}".format(precision_score(Y_Test, predictionforest.round(), average='weighted')))
+    print("RandomForestRegressor recall = {}".format(recall_score(Y_Test, predictionforest.round(), average='weighted')))
+    print("RandomForestRegressor accuracy = {}".format(accuracy_score(Y_Test, predictionforest.round())))
 
 def gradient_boosting_regression_test(X, Y):
     X_Train, X_Test, Y_Train, Y_Test = train_test_split(X, Y,
@@ -178,12 +180,12 @@ def gradient_boosting_regression_test(X, Y):
                                                         random_state = 101)
     start = time.process_time()
     trainedforest = GradientBoostingRegressor(n_estimators=500, verbose=1).fit(X_Train,Y_Train)
-    print('Gradient boosting regression test training time =', time.process_time() - start)
+    print('GradientBoostingRegressor test training time =', time.process_time() - start)
     predictionforest = trainedforest.predict(X_Test)
-    print('mean_squared_error',mean_squared_error(Y_Test,predictionforest))
-    print("Random forest regression precision = {}".format(precision_score(Y_Test, predictionforest.round(), average='macro')))
-    print("Random forest regression recall = {}".format(recall_score(Y_Test, predictionforest.round(), average='macro')))
-    print("Random forest regression accuracy = {}".format(accuracy_score(Y_Test, predictionforest.round())))
+    print('GradientBoostingRegressor mean_squared_error',mean_squared_error(Y_Test,predictionforest))
+    print("GradientBoostingRegressor precision = {}".format(precision_score(Y_Test, predictionforest.round(), average='weighted')))
+    print("GradientBoostingRegressor recall = {}".format(recall_score(Y_Test, predictionforest.round(), average='weighted')))
+    print("GradientBoostingRegressor accuracy = {}".format(accuracy_score(Y_Test, predictionforest.round())))
 
 def showXGBTrainImportance(data, targetColumn, feature_columns, needSave=False):
     xgbTrainData = xgb.DMatrix(data, targetColumn, feature_names=feature_columns)
