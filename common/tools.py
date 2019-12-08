@@ -7,6 +7,7 @@ from sklearn.ensemble import RandomForestRegressor
 import matplotlib.pyplot as plt
 import numpy as np
 import xgboost as xgb
+from sklearn.preprocessing import LabelEncoder
 from sklearn.tree import DecisionTreeClassifier
 import seaborn as sns
 
@@ -101,21 +102,25 @@ def findMeasure(ingr, measures):
 def uncodeDecode(str):
     return str.encode('utf-8').decode('utf-8').replace('\xa0','').replace('\u200b','').replace('()', '').strip()
 
-def draw_confusion_matrix(y_true, y_pred):
+def draw_confusion_matrix(y_true, y_pred, title):
     cm=confusion_matrix(y_true, y_pred)
-    print(cm)
+    # print(cm)
     fig, ax = plt.subplots()
     im = ax.imshow(cm, interpolation='nearest', cmap=plt.cm.Blues)
     ax.figure.colorbar(im, ax=ax)
 
-    ax.set(xticks=np.arange(cm.shape[1]),
-           yticks=np.arange(cm.shape[0]),
-           title='Confusion matrix',
-           ylabel='True label',
-           xlabel='Predicted label')
+    ax.set(title=title,
+           ylabel='True rating',
+           xlabel='Predicted rating', )
 
-    plt.setp(ax.get_xticklabels(), rotation=45, ha="right",
-             rotation_mode="anchor")
+    labels = ['2', '2.5', '3', '3.5', '4', '4.5', '5']
+    if cm.shape[1] > 7:
+        labels = ['  '] + labels
+    plt.xticks(np.arange(len(labels)), labels)
+    plt.yticks(np.arange(len(labels)), labels)
+
+    plt.setp(ax.get_xticklabels(), rotation=0, ha="right", rotation_mode="anchor")
+    #plt.legend(('', '', ''), loc='upper right')
 
     fmt = 'd'
     thresh = cm.max() / 2.
@@ -127,44 +132,48 @@ def draw_confusion_matrix(y_true, y_pred):
     fig.tight_layout()
     plt.show()
 
+def show_classification_statistics(Y_Test, prediction, lenc, title):
+    Y_Test = lenc.inverse_transform(Y_Test)
+    prediction = lenc.inverse_transform(prediction)
+    Y_Test = Y_Test.astype(np.str)
+    prediction = prediction.astype(np.str)
+    draw_confusion_matrix(Y_Test, prediction, title)
+    print(classification_report(Y_Test,prediction))
+
 def forest_classification_test(X, Y):
-    X_Train, X_Test, Y_Train, Y_Test = train_test_split(X, Y,
-                                                        test_size = 0.25,
-                                                        random_state = 101)
+    lenc = LabelEncoder()
+    Y = lenc.fit_transform(Y)
+    X_Train, X_Test, Y_Train, Y_Test = train_test_split(X, Y, test_size = 0.2, random_state = 101)
     start = time.process_time()
     trainedforest = RandomForestClassifier(n_estimators=500, verbose=1).fit(X_Train,Y_Train)
     print('Random forest classifier test training time =', time.process_time() - start)
-    predictionforest = trainedforest.predict(X_Test)
-    draw_confusion_matrix(Y_Test, predictionforest)
-    print(classification_report(Y_Test,predictionforest))
+    prediction = trainedforest.predict(X_Test)
+    show_classification_statistics(Y_Test, prediction, lenc, 'RandomForestClassifier')
 
 def tree_classification_test(X, Y):
-    X_Train, X_Test, Y_Train, Y_Test = train_test_split(X, Y,
-                                                        test_size = 0.25,
-                                                        random_state = 101)
+    lenc = LabelEncoder()
+    Y = lenc.fit_transform(Y)
+    X_Train, X_Test, Y_Train, Y_Test = train_test_split(X, Y, test_size = 0.2, random_state = 101)
     start = time.process_time()
     trainedtree = DecisionTreeClassifier().fit(X_Train,Y_Train)
     print('Decision Tree classifier test training time =', time.process_time() - start)
-    predictiontree = trainedtree.predict(X_Test)
-    draw_confusion_matrix(Y_Test, predictiontree)
-    print(classification_report(Y_Test,predictiontree))
+    prediction = trainedtree.predict(X_Test)
+    show_classification_statistics(Y_Test, prediction, lenc, 'DecisionTreeClassifier')
 
 def gradient_boosting_classification_test(X, Y):
-    X_Train, X_Test, Y_Train, Y_Test = train_test_split(X, Y,
-                                                        test_size = 0.25,
-                                                        random_state = 101)
+    lenc = LabelEncoder()
+    Y = lenc.fit_transform(Y)
+    X_Train, X_Test, Y_Train, Y_Test = train_test_split(X, Y, test_size = 0.2, random_state = 101)
     start = time.process_time()
     trainedforest = GradientBoostingClassifier(n_estimators=500, verbose=1).fit(X_Train,Y_Train)
     print('Gradient boosting classifier test training time =', time.process_time() - start)
-    predictionforest = trainedforest.predict(X_Test)
-    draw_confusion_matrix(Y_Test, predictionforest)
-    print(classification_report(Y_Test,predictionforest))
-
+    prediction = trainedforest.predict(X_Test)
+    show_classification_statistics(Y_Test, prediction, lenc, 'GradientBoostingClassifier')
 
 def forest_regression_test(X, Y):
-    X_Train, X_Test, Y_Train, Y_Test = train_test_split(X, Y,
-                                                            test_size = 0.25,
-                                                            random_state = 101)
+    lenc = LabelEncoder()
+    Y = lenc.fit_transform(Y)
+    X_Train, X_Test, Y_Train, Y_Test = train_test_split(X, Y, test_size = 0.2, random_state = 101)
     start = time.process_time()
     trainedforest = RandomForestRegressor(n_estimators=500, verbose=1).fit(X_Train,Y_Train)
     print('Random forest regression test training time =', time.process_time() - start)
@@ -175,9 +184,9 @@ def forest_regression_test(X, Y):
     print("RandomForestRegressor accuracy = {}".format(accuracy_score(Y_Test, predictionforest.round())))
 
 def gradient_boosting_regression_test(X, Y):
-    X_Train, X_Test, Y_Train, Y_Test = train_test_split(X, Y,
-                                                        test_size = 0.25,
-                                                        random_state = 101)
+    lenc = LabelEncoder()
+    Y = lenc.fit_transform(Y)
+    X_Train, X_Test, Y_Train, Y_Test = train_test_split(X, Y, test_size = 0.2, random_state = 101)
     start = time.process_time()
     trainedforest = GradientBoostingRegressor(n_estimators=500, verbose=1).fit(X_Train,Y_Train)
     print('GradientBoostingRegressor test training time =', time.process_time() - start)

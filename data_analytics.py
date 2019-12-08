@@ -32,55 +32,50 @@ def do_experiment(dataset_path):
     showXGBTrainImportance(standart_scaled_columns, df['rating'], columns_to_scale)
     #showXGBTrainImportance(min_max_scaled_columns, df['rating'], columns_to_scale)
 
-    # классификация по рейтингу предварительно его округлив
-    # Y = LabelEncoder().fit_transform(df['rating'].round())
-    Y = LabelEncoder().fit_transform(df['rating'])
-
+    Y = df['rating']
     tree_classification_test(standart_scaled, Y)
     forest_classification_test(standart_scaled, Y)
-    #forest_classification_test(min_max_scaled, Y)
-
     gradient_boosting_classification_test(standart_scaled, Y)
-    #gradient_boosting_classification_test(min_max_scaled, Y)
-
 
     # регрессия (предсказание рейтинга)
-    # Y = LabelEncoder().fit_transform(df['rating'])
-
     #forest_regression_test(standart_scaled, Y)
-    #forest_regression_test(min_max_scaled, Y)
-
     #gradient_boosting_regression_test(standart_scaled, Y)
-    #gradient_boosting_regression_test(min_max_scaled, Y)
 
-    scaled_data = standart_scaled
-    #scaled_data = min_max_scaled
-    return scaled_data, df['rating']
+    return standart_scaled, df['rating']
 
 
 # scaled_data, label_df = do_experiment('/datasets/engineering_in_progress_out.csv')
-
 # doPca_decomposition_demonstration(scaled_data, label_df)
-
 # do_tsne_decomposition_demonstration(scaled_data, label_df)
-
 # do_lda_decomposition_demonstration(scaled_data, label_df,3)
 # do_lda_decomposition_demonstration(scaled_data, label_df,30)
-
 # do_lle_decomposition_demonstration(scaled_data, label_df,3)
 # do_lle_decomposition_demonstration(scaled_data, label_df,30)
-
 # do_AE_decomposition_demonstration(scaled_data, label_df)
 
 scaled_data, label_df = do_experiment('/datasets/grouped_columns.csv')
 # doPca_decomposition_demonstration(scaled_data, label_df)
-
 # do_tsne_decomposition_demonstration(scaled_data, label_df)
-
 # do_lda_decomposition_demonstration(scaled_data, label_df,3)
 # do_lda_decomposition_demonstration(scaled_data, label_df,30)
-
 # do_lle_decomposition_demonstration(scaled_data, label_df,3)
 # do_lle_decomposition_demonstration(scaled_data, label_df,30)
+# do_AE_decomposition_demonstration(scaled_data, label_df)
 
+scaled_data, label_df = do_experiment('/datasets/grouped_columns_filled_with_regression.csv')
+# doPca_decomposition_demonstration(scaled_data, label_df)
+# do_tsne_decomposition_demonstration(scaled_data, label_df)
+# do_lda_decomposition_demonstration(scaled_data, label_df,3)
+# do_lda_decomposition_demonstration(scaled_data, label_df,30)
+# do_lle_decomposition_demonstration(scaled_data, label_df,3)
+# do_lle_decomposition_demonstration(scaled_data, label_df,30)
+# do_AE_decomposition_demonstration(scaled_data, label_df)
+
+scaled_data, label_df = do_experiment('/datasets/grouped_columns_filled_with_clusterization.csv')
+# doPca_decomposition_demonstration(scaled_data, label_df)
+# do_tsne_decomposition_demonstration(scaled_data, label_df)
+# do_lda_decomposition_demonstration(scaled_data, label_df,3)
+# do_lda_decomposition_demonstration(scaled_data, label_df,30)
+# do_lle_decomposition_demonstration(scaled_data, label_df,3)
+# do_lle_decomposition_demonstration(scaled_data, label_df,30)
 # do_AE_decomposition_demonstration(scaled_data, label_df)

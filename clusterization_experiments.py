@@ -96,4 +96,46 @@ for algo in algorithms:
         draw2D_points(X, algo.labels_, str(type(algo)) + ' ' + str(decomp))
 
 
-# NearestNeighbors !!!
+# Для каждой неразмеченной точки найдем N ближайших соседа и примем за метку среднее значение их рейтингов
+N_NEIGHBORS = 3
+nbrs = NearestNeighbors(n_neighbors=N_NEIGHBORS, algorithm='ball_tree').fit(X)
+X_unmarked = df_test.to_numpy()
+graph = nbrs.kneighbors_graph(X_unmarked).toarray()
+print(len(graph), X_unmarked.shape)
+
+def calibrate_rating(val):
+    if val > 5:
+        return 5
+    if 4.5 <= val < 5:
+        return 4.5
+    if 4 <= val < 4.5:
+        return 4
+    if 3.5 <= val < 4:
+        return 3.5
+    if 3 <= val < 3.5:
+        return 3
+    if 2.5 <= val < 3:
+        return 2.5
+    return 2
+
+marked_rating = df['rating'].to_numpy()
+ratings = []
+for i,gr in enumerate(graph):
+    rating = 0
+    for j, val in enumerate(gr):
+        if val!=0:
+            # print('for point with index',i, 'closest neighbour from marked data is', j, 'with rating', marked_rating[j])
+            rating = rating + marked_rating[j]
+    ratings.append(calibrate_rating(rating / N_NEIGHBORS))
+
+df_unmarked = df_csv.loc[df_csv['rating'] == 0]
+df_unmarked['rating'] = ratings
+df_marked = df_csv.loc[df_csv['rating'] != 0]
+
+result = pd.concat([df_marked, df_unmarked])
+print(result.shape)
+print(result.sample(10))
+print(result.loc[result['rating'] == 0])
+
+result.to_csv(curr_dir +'/datasets/grouped_columns_filled_with_clusterization.csv', index=False)
+print('done')

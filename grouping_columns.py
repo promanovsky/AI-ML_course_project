@@ -36,11 +36,6 @@ grupped_columns.append('rating')
 print(grupped_columns)
 df = df[grupped_columns]
 
-#df['rating'] = df['rating'].round()
-#rating_values = df['rating'].values.tolist()
-#rating_values = [y if y >= 3 else 2 for y in rating_values]
-#df['rating'] = rating_values
-
 df.to_csv(curr_dir +'/datasets/grouped_columns.csv', index=False)
 print(df.shape)
 print('done')

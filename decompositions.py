@@ -79,7 +79,7 @@ def doAE(data):
 def doPca_decomposition_demonstration(scaled_data, labels_df):
     pca2, pca3, pca30 = doPca2(scaled_data), doPca3(scaled_data), doPcaN(scaled_data, 30)
     print('PCA CLASSIFICATION TESTS >>>>>>>>>>>>>>>>>>>>>>')
-    Y = LabelEncoder().fit_transform(labels_df.round())
+    Y = LabelEncoder().fit_transform(labels_df)
     print('     PCA 2 components >>>>>>>>>>>')
     forest_classification_test(pca2, Y)
     tree_classification_test(pca2, Y)
@@ -111,7 +111,7 @@ def doPca_decomposition_demonstration(scaled_data, labels_df):
 def do_tsne_decomposition_demonstration(scaled_data, labels_df):
     tSNE = doTsne(scaled_data, 3)
     print('TSNE CLASSIFICATION TESTS >>>>>>>>>>>>>>>>>>>>>>')
-    Y = LabelEncoder().fit_transform(labels_df.round())
+    Y = LabelEncoder().fit_transform(labels_df)
     forest_classification_test(tSNE, Y)
     tree_classification_test(tSNE, Y)
     gradient_boosting_classification_test(tSNE, Y)
@@ -121,7 +121,7 @@ def do_tsne_decomposition_demonstration(scaled_data, labels_df):
     gradient_boosting_regression_test(tSNE, Y)
 
 def do_lda_decomposition_demonstration(scaled_data, labels_df, n_components=3):
-    Y = LabelEncoder().fit_transform(labels_df.round())
+    Y = LabelEncoder().fit_transform(labels_df)
     lda = doLda(scaled_data,Y, n_components)
     print('LDA with {} components CLASSIFICATION TESTS >>>>>>>>>>>>>>>>>>>>>>'.format(n_components))
     forest_classification_test(lda, Y)
@@ -129,27 +129,25 @@ def do_lda_decomposition_demonstration(scaled_data, labels_df, n_components=3):
     gradient_boosting_classification_test(lda, Y)
 
     print('LDA with {} components REGRESSION TESTS >>>>>>>>>>>>>>>>>>>>>>'.format(n_components))
-    #Y = LabelEncoder().fit_transform(df['rating'])
     forest_regression_test(lda, Y)
     gradient_boosting_regression_test(lda, Y)
 
 def do_lle_decomposition_demonstration(scaled_data, labels_df, n_components=3):
     lle = doLle(scaled_data,n_components)
     print('LLE with {} components CLASSIFICATION TESTS >>>>>>>>>>>>>>>>>>>>>>'.format(n_components))
-    Y = LabelEncoder().fit_transform(labels_df.round())
+    Y = LabelEncoder().fit_transform(labels_df)
     forest_classification_test(lle, Y)
     tree_classification_test(lle, Y)
     gradient_boosting_classification_test(lle, Y)
 
     print('LLE with {} components REGRESSION TESTS >>>>>>>>>>>>>>>>>>>>>>'.format(n_components))
-    #Y = LabelEncoder().fit_transform(df['rating'])
     forest_regression_test(lle, Y)
     gradient_boosting_regression_test(lle, Y)
 
 def do_AE_decomposition_demonstration(scaled_data, labels_df):
     ae_data = doAE(scaled_data)
     print('AE DECOMPOSITION CLASSIFICATION TESTS >>>>>>>>>>>>>>>>>>>>>>')
-    Y = LabelEncoder().fit_transform(labels_df.round())
+    Y = LabelEncoder().fit_transform(labels_df)
     forest_classification_test(ae_data, Y)
     tree_classification_test(ae_data, Y)
     gradient_boosting_classification_test(ae_data, Y)
