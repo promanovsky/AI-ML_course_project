@@ -34,7 +34,7 @@ def parseRecipeFromUrl(url):
     #print(recipe_name, rating, found_ingredients_with_amounts)
     return recipe_name, rating, found_ingredients_with_amounts
 
-curr_dir = os.path.abspath(os.curdir)
+par_dir = os.path.abspath(os.pardir)
 
 
 recipe_urls = []
@@ -61,10 +61,10 @@ for url in recipe_urls:
     ingredients_data[recipe_name] = found_ingredients_with_amounts
 
 
-with open(curr_dir + '/datasets/thespruceeats/ingredients_data.json', 'w') as fp:
+with open(par_dir + '/datasets/thespruceeats/ingredients_data.json', 'w') as fp:
     json.dump(ingredients_data, fp)
 
-with open(curr_dir + '/datasets/thespruceeats/rating_data.json', 'w') as fp:
+with open(par_dir + '/datasets/thespruceeats/rating_data.json', 'w') as fp:
     json.dump(rating_data, fp)
 
 print('done')

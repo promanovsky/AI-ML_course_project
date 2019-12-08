@@ -1,8 +1,8 @@
 import pandas as pd
 import os
 
-curr_dir = os.path.abspath(os.curdir)
-df = pd.read_csv(curr_dir + '/datasets/final_dataset.csv')
+par_dir = os.path.abspath(os.pardir)
+df = pd.read_csv(par_dir + '/datasets/final_dataset.csv')
 print(df.shape)
 #print(df.sample(20))
 
@@ -45,6 +45,6 @@ print('del_ingredients', len(del_ingredients), del_ingredients)
 print('Shape before deleting',df.shape)
 df = df.drop(del_ingredients, axis=1)
 print('Shape after deleting',df.shape)
-df.to_csv(curr_dir +'/datasets/engineering_in_progress.csv', index=False)
+df.to_csv(par_dir +'/datasets/engineering_in_progress.csv', index=False)
 print('done')
 # (4326, 1854)

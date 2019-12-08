@@ -153,6 +153,5 @@ def do_AE_decomposition_demonstration(scaled_data, labels_df):
     gradient_boosting_classification_test(ae_data, Y)
 
     print('AE DECOMPOSITION REGRESSION TESTS >>>>>>>>>>>>>>>>>>>>>>')
-    #Y = LabelEncoder().fit_transform(df['rating'])
     forest_regression_test(ae_data, Y)
     gradient_boosting_regression_test(ae_data, Y)

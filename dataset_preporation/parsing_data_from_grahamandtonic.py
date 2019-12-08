@@ -6,7 +6,7 @@ import json
 
 from common.tools import replacing_dict, measures, uncodeDecode, getNumber, findMeasure
 
-curr_dir = os.path.abspath(os.curdir)
+par_dir = os.path.abspath(os.pardir)
 recipe_urls = []
 
 browser = webdriver.PhantomJS()
@@ -76,10 +76,10 @@ for url in recipe_urls:
         ingredients_data[recipe_name] = found_ingredients_with_amounts
 
 
-with open(curr_dir + '/datasets/grahamandtonic/ingredients_data.json', 'w') as fp:
+with open(par_dir + '/datasets/grahamandtonic/ingredients_data.json', 'w') as fp:
     json.dump(ingredients_data, fp)
 
-with open(curr_dir + '/datasets/grahamandtonic/rating_data.json', 'w') as fp:
+with open(par_dir + '/datasets/grahamandtonic/rating_data.json', 'w') as fp:
     json.dump(rating_data, fp)
 
 print('done')

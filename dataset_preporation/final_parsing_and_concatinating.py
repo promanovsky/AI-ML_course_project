@@ -5,21 +5,21 @@ import re
 import os
 import json
 
-curr_dir = os.path.abspath(os.curdir)
-df = pd.read_csv(curr_dir + '/datasets/dataset_step_3.csv')
+par_dir = os.path.abspath(os.pardir)
+df = pd.read_csv(par_dir + '/datasets/dataset_step_3.csv')
 print(df.shape)
 print(df.head())
 
-with open(curr_dir + '/datasets/thespruceeats/ingredients_data.json', 'r') as fp:
+with open(par_dir + '/datasets/thespruceeats/ingredients_data.json', 'r') as fp:
     ingredients_data_1 = json.load(fp)
 
-with open(curr_dir + '/datasets/grahamandtonic/ingredients_data.json', 'r') as fp:
+with open(par_dir + '/datasets/grahamandtonic/ingredients_data.json', 'r') as fp:
     ingredients_data_2 = json.load(fp)
 
-with open(curr_dir + '/datasets/thespruceeats/rating_data.json', 'r') as fp:
+with open(par_dir + '/datasets/thespruceeats/rating_data.json', 'r') as fp:
     rating_data_1 = json.load(fp)
 
-with open(curr_dir + '/datasets/grahamandtonic/rating_data.json', 'r') as fp:
+with open(par_dir + '/datasets/grahamandtonic/rating_data.json', 'r') as fp:
     rating_data_2 = json.load(fp)
 
 used_ingredients = set(df.columns[2::])
@@ -72,6 +72,6 @@ print(df.shape)
 df = df.loc[:, (df != 0).any(axis=0)]
 print(df.shape)
 
-df.to_csv(curr_dir +'/datasets/final_dataset.csv', index=False)
+df.to_csv(par_dir +'/datasets/final_dataset.csv', index=False)
 print('done')
 # (4326, 3660)

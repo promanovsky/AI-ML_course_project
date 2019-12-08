@@ -5,8 +5,8 @@ from common.tools import ingredients_transformation, find_group_for_ingredient
 pd.set_option('display.max_columns', 100)
 pd.set_option('display.max_rows', 50)
 
-curr_dir = os.path.abspath(os.curdir)
-df = pd.read_csv(curr_dir + '/datasets/engineering_in_progress_out.csv')
+par_dir = os.path.abspath(os.pardir)
+df = pd.read_csv(par_dir + '/datasets/engineering_in_progress_out.csv')
 print(df.shape)
 
 columns_to_group = list(df.columns)
@@ -36,7 +36,7 @@ grupped_columns.append('rating')
 print(grupped_columns)
 df = df[grupped_columns]
 
-df.to_csv(curr_dir +'/datasets/grouped_columns.csv', index=False)
+df.to_csv(par_dir +'/datasets/grouped_columns.csv', index=False)
 print(df.shape)
 print('done')
 # (4326, 38)

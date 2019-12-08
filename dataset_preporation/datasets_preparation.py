@@ -4,10 +4,10 @@ import os
 
 from common.tools import replacing_dict, measures, getNumber, formatMeasureValues
 
-curr_dir = os.path.abspath(os.curdir)
+par_dir = os.path.abspath(os.pardir)
 # DATASET №1 ====================================================
 print('>>> PROCESSING DATASET #1')
-df = pd.read_csv(curr_dir + '/datasets/hotaling_cocktails - Cocktails.csv')
+df = pd.read_csv(par_dir + '/datasets/hotaling_cocktails - Cocktails.csv')
 print(df.shape)
 print(df.head())
 
@@ -70,7 +70,7 @@ df = df.loc[:, (df != 0).any(axis=0)] # удаление столбцов с н�
 print(df.head())
 print(df.shape)
 
-df.to_csv(curr_dir +'/datasets/dataset_step_1.csv', index=False)
+df.to_csv(par_dir +'/datasets/dataset_step_1.csv', index=False)
 # END OF DATASET №1 ==================================================
 
 main_df = df
@@ -79,7 +79,7 @@ used_ingredients = used_ingredients[3::]
 
 # DATASET №2 ==================================================
 print('>>> PROCESSING DATASET #2')
-df = pd.read_csv(curr_dir + '/datasets/all_drinks.csv')
+df = pd.read_csv(par_dir + '/datasets/all_drinks.csv')
 print(df.shape)
 print(df.sample(50))
 print(df.columns)
@@ -153,13 +153,13 @@ main_df = main_df.loc[:, (main_df != 0).any(axis=0)]
 print(main_df.head())
 print(main_df.shape)
 
-main_df.to_csv(curr_dir +'/datasets/dataset_step_2.csv', index=False)
+main_df.to_csv(par_dir +'/datasets/dataset_step_2.csv', index=False)
 # END OF DATASET №2 ==================================================
 
 
 # DATASET №3 ==================================================
 print('>>> PROCESSING DATASET #3')
-df = pd.read_csv(curr_dir + '/datasets/mr-boston-flattened.csv')
+df = pd.read_csv(par_dir + '/datasets/mr-boston-flattened.csv')
 print(df.shape)
 print(df.sample(50))
 print(df.columns)
@@ -220,6 +220,6 @@ print(main_df.shape)
 main_df = main_df.loc[:, (main_df != 0).any(axis=0)]
 print(main_df.shape)
 
-main_df.to_csv(curr_dir +'/datasets/dataset_step_3.csv', index=False)
+main_df.to_csv(par_dir +'/datasets/dataset_step_3.csv', index=False)
 # END OF DATASET №3 ==================================================
 print('>>> done')
