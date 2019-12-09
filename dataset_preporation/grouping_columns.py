@@ -2,11 +2,16 @@ import pandas as pd
 import os
 from common.tools import ingredients_transformation, find_group_for_ingredient
 
+"""
+Этап 4в 
+Полученные колонки сгруппированы по смыслу в 37 категорий, их значения нужно смержить
+"""
+
 pd.set_option('display.max_columns', 100)
 pd.set_option('display.max_rows', 50)
 
 par_dir = os.path.abspath(os.pardir)
-df = pd.read_csv(par_dir + '/datasets/engineering_in_progress_out.csv')
+df = pd.read_csv(par_dir + '/datasets/reducing_dataset.csv')
 print(df.shape)
 
 columns_to_group = list(df.columns)

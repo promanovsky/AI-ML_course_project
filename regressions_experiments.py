@@ -12,6 +12,11 @@ from sklearn.preprocessing import StandardScaler, LabelEncoder
 from common.tools import forest_regression_test, gradient_boosting_regression_test
 from decompositions import doTsne, doLle, doPcaN
 
+"""
+Решение проблемы немаркированных данных через построение регрессионной модели определения 
+предсказания рейтинга для неразмеченной точки
+"""
+
 pd.set_option('display.max_columns', 100)
 pd.set_option('display.max_rows', 50)
 

@@ -14,6 +14,10 @@ from sklearn.preprocessing import LabelEncoder
 from common.tools import forest_classification_test, gradient_boosting_classification_test, forest_regression_test, \
     gradient_boosting_regression_test, tree_classification_test
 
+"""
+Скрипт содержит функции реализующие основные методы декомпозиции и функции реализующие эксперименты по применению этих 
+методов декомпозиции.
+"""
 
 def doPca2(data):
     pca = PCA(n_components=2)

@@ -2,6 +2,13 @@ import pandas as pd
 import os
 import re
 
+"""
+Этап 4б 
+Анализ ингредиентов - поиск вхождений коротких описаний в длинные, мерж столбцов,
+анализ количественного состава колонок - удаляем колонки в которых только одно значение и которые никуда не входят 
+по наименованию.
+"""
+
 def findWholeWord(w):
     return re.compile(r'\b({0})\b'.format(w), flags=re.IGNORECASE).search
 
@@ -9,7 +16,7 @@ pd.set_option('display.max_columns', 1856)
 pd.set_option('display.max_rows', 50)
 
 par_dir = os.path.abspath(os.pardir)
-df = pd.read_csv(par_dir + '/datasets/engineering_in_progress.csv')
+df = pd.read_csv(par_dir + '/datasets/columns_editing.csv')
 #df = pd.read_csv(io.StringIO(df.to_csv(index=False)))
 print(df.shape)
 df.sample(10)
@@ -62,6 +69,6 @@ df = df[(df.T != 0).any()]
 print(df.shape)
 print(list(df.columns))
 
-df.to_csv(par_dir +'/datasets/engineering_in_progress_out.csv', index=False)
+df.to_csv(par_dir +'/datasets/reducing_dataset.csv', index=False)
 print('done')
 # (4326, 792)

@@ -1,6 +1,10 @@
 import pandas as pd
 import os
 
+"""
+Этап 4а 
+Анализ ингредиентов - поиск дубликатов, поиск вхождений коротких описаний в длинные, мерж столбцов.
+"""
 par_dir = os.path.abspath(os.pardir)
 df = pd.read_csv(par_dir + '/datasets/final_dataset.csv')
 print(df.shape)
@@ -45,6 +49,6 @@ print('del_ingredients', len(del_ingredients), del_ingredients)
 print('Shape before deleting',df.shape)
 df = df.drop(del_ingredients, axis=1)
 print('Shape after deleting',df.shape)
-df.to_csv(par_dir +'/datasets/engineering_in_progress.csv', index=False)
+df.to_csv(par_dir +'/datasets/columns_editing.csv', index=False)
 print('done')
 # (4326, 1854)

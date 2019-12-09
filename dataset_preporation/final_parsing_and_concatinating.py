@@ -5,6 +5,12 @@ import re
 import os
 import json
 
+"""
+Этап 3
+Склейка датасетов с кеггла и данных взятых с сайтов на этапе 2.
+Поиск пересечения по ингридиентам. Добавление данных о рейтинге. 
+Неразмеченные записи получают рейтинг 0.
+"""
 par_dir = os.path.abspath(os.pardir)
 df = pd.read_csv(par_dir + '/datasets/dataset_step_3.csv')
 print(df.shape)
@@ -45,7 +51,6 @@ for ingr in new_ingredients:
     zeros = [0 for x in range(df.shape[0])]
     df[ingr] = zeros
 
-#rates = [uniform(2,4) for x in range(df.shape[0])]
 rates = [0 for x in range(df.shape[0])]
 df = df.assign(rating=rates)
 

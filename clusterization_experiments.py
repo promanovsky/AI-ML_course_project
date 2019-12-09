@@ -11,6 +11,9 @@ from sklearn.neighbors import NearestNeighbors
 sns.set()
 
 """
+Решение проблемы немаркированных данных через построение кластеризации (для анализа) и определения 
+ближайшего соседа к неразмеченной точке
+
 https://habr.com/ru/company/ods/blog/325654/
 https://towardsdatascience.com/k-means-clustering-with-scikit-learn-6b47a369a83c
 """

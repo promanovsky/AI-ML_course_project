@@ -11,6 +11,10 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.tree import DecisionTreeClassifier
 import seaborn as sns
 
+"""
+Общеиспользуемые структуры (словари), методы используемые в других скриптах
+"""
+
 sns.set()
 
 measures = dict()
@@ -292,6 +296,7 @@ ingredients_transformation['common_ingr'] = ['citric acid', 'pineapple gum', 'pi
                                         'frozen blueberries','peach','peach purée','b & b','thyme sprig','sprigs avender','vania bean','basil leaves','cup raspberries','raspberries','edible flower','blackberries',
                                        'cocktail onion','ardamom pods','mustard','red appe','bay leaf','bay eaves','smoked paprika','our mix','3- package gelatin (any flavor)','s gelatin','sage eaves','fennel seed',
                                        'dried rose buds','marmalade','blueberry preserve','coco lopez','half and half','raspberry preserve','pea-sized doop of wasabi paste','chambord','ilantro leaves','oves','eggnog','sliesuumber']
+
 def find_group_for_ingredient(ingr_name):
     if ingr_name in ingredients_transformation.keys():
         return ingr_name

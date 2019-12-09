@@ -4,6 +4,14 @@ import os
 
 from common.tools import replacing_dict, measures, getNumber, formatMeasureValues
 
+"""
+Этап 1
+Форматирование датасетов с кеггла в единый формат, удаление лишних столбцов, парсинг колонок (приведение к общей единице измерения).
+Склейка в единый датасет. Поэтапное сохранение.
+https://www.kaggle.com/lishuyangkaggle/cocktails-hotaling-co
+https://www.kaggle.com/ai-first/cocktail-ingredients
+https://www.kaggle.com/jenlooper/mr-boston-cocktail-dataset
+"""
 par_dir = os.path.abspath(os.pardir)
 # DATASET №1 ====================================================
 print('>>> PROCESSING DATASET #1')
