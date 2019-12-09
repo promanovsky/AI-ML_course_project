@@ -3,7 +3,7 @@ import os
 from common.tools import ingredients_transformation, find_group_for_ingredient
 
 """
-Этап 4в 
+Этап 4с
 Полученные колонки сгруппированы по смыслу в 37 категорий, их значения нужно смержить
 """
 

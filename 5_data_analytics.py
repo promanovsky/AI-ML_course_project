@@ -38,6 +38,7 @@ def do_experiment(dataset_path):
     #showXGBTrainImportance(min_max_scaled_columns, df['rating'], columns_to_scale)
 
     Y = df['rating']
+    # классификация по рейтингу
     tree_classification_test(standart_scaled, Y)
     forest_classification_test(standart_scaled, Y)
     gradient_boosting_classification_test(standart_scaled, Y)
