@@ -226,7 +226,7 @@ ingredients_transformation['liquer'] = ['luxardo aperitivo', 'luxardo bitter', '
                                   'amaretto liqueur', 'benedictine liqueur','amaro', 'averna amaro', 'ramazzotti amaro', 'amaro nonino', 'amaro montenegro', 'amaro meletti', 'triple sec','dry curacao', 'blue curacao', 'orange curacao',
                                   'the genuine curacao liqueur clear','curacao','benedictine','benedictine dom','bonal','campari','giffard pamplemousse','aperol','averna','ancho reyes','giffard banane du brésil','cynar','licor 43',
                                   'the king\'s ginger','anisette','old mr. boston anisette','aquavit','jägermeister','tia maria','hot damn','galliano','galliano l\'autentico','galliano l\'authentico','allspice dram',
-                                  'cherry heering','frangelico','kahlua','sambuca','pisang ambon','amaretto','amaretto di saronno','ouzo','kummel','old mr. boston kummel','advocaat','limoncello','swedish punch',
+                                  'cherry heering','frangelico','kahlua','t. germain','sambuca','pisang ambon','amaretto','amaretto di saronno','ouzo','kummel','old mr. boston kummel','advocaat','limoncello','swedish punch',
                                   'margarita mix','crème de menthe','crème de noyau','crème de violette','crème de fraise','crème de framboise','crème de mûre','crème de pêche','crème de cassis','outhern comfort',
                                   'st germain','kümmel','suze','ramazzotti','pimento dram','blue curaçao','orange curaçao','swedish flaggpunsch', 'mandarine napoleon']
 ingredients_transformation['pepper'] = ['pepper corns', 'black pepper', 'pepper', 'cayenne pepper', 'pepper and salt', 'habanero pepper', 'green bell pepper', 'serrano pepper']
@@ -234,7 +234,7 @@ ingredients_transformation['syrup'] = ['monin cane syrup', 'pomegranate syrup', 
                                  'hibiscus syrup','pineapple syrup','rhubarb syrup','orgeat syrup','pear syrup','honey syrup','raspberry syrup','mint syrup','chocolate syrup','corn syrup','chile syrup','imple syrup',
                                  'spiced syrup','blackberry syrup','lapsong souchang syrup','basil syrup','toffee syrup','cherry syrup','trawberry syrup','rose syrup','elderflower syrup','gooseberry syrup', 'grenadine',
                                  'cherry grenadine', 'orgeat', 'small hand foods orgeat', 'house-made orgeat', 'velvet falernum','falernum','maraschino cherry','maraschino']
-ingredients_transformation['soda'] = ['fever-tree soda','soda water','club soda','grape soda','lime soda','liter ub soda']
+ingredients_transformation['soda'] = ['fever-tree soda','soda water','club soda','grape soda','lime soda','liter ub soda','7-up soda']
 ingredients_transformation['vermouth'] = ['tempus fugit alessio vermouth di torino rosso','tempus fugit alessio vermouth chinato', 'blanc vermouth', 'dry vermouth', 'dolin vermouth', 'red vermouth','cocchi vermouth di torino',
                                     'dryvermouth','weet vermouth','bianco vermouth','carpano antica','punt e mes']
 ingredients_transformation['cinnamon'] = ['cinnamon tincture','cannella cinnamon cordial', 'ground cinnamon']
@@ -273,7 +273,7 @@ ingredients_transformation['lemon'] = ['fresh lemon', 'lemon sour', 'lemon sorbe
                                  'lime slice','lime(cut into )', 'lime (juied)', 'lemon wedge','lemons (slied)','ime','squeeze of ime']
 ingredients_transformation['egg'] = ['egg white', 'egg yolk', 'whole egg', 'egg yok', 'sma egg', 'arge egg']
 ingredients_transformation['tea'] = ['chai tea','iced tea','tea (chilled)','chamomile tea','black tea','green tea leaves','hibiscus tea']
-ingredients_transformation['cider'] = ['apple cider', 'hard cider', 'sparkling cider']
+ingredients_transformation['cider'] = ['apple cider', 'hard cider', 'sparkling cider', 'fresh cider']
 ingredients_transformation['grapefruit'] = ['grapefruit twist','grapefruit wedge','grapefruit slice','grapefruit peel']
 ingredients_transformation['ginger'] = ['fresh ginger','crystallised ginger','ground ginger','thin slice ginger']
 ingredients_transformation['butter'] = ['spiced butter','table butter','butter (softened)']
