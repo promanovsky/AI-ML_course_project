@@ -210,15 +210,15 @@ def showXGBTrainImportance(data, targetColumn, feature_columns, needSave=False):
     plt.show()
 
 ingredients_transformation = dict()
-ingredients_transformation['wine'] = ['maurin quina','rose wine','sparkling wine','barsol perfecto amor (aperitif wine)','wine','rosé wine','moscato wine','white wine','port wine','white port', 'port', 'ruby port','tawny port',
+ingredients_transformation['wine_ingr'] = ['maurin quina','rose wine','sparkling wine','barsol perfecto amor (aperitif wine)','wine','rosé wine','moscato wine','white wine','port wine','white port', 'port', 'ruby port','tawny port',
                                 'lbv port', 'red wine','lillet blanc','lillet rose','lillet rouge','champagne','champagne or prosecco','chilled champagne','madeira','sercial madeira','lustau east india solera','dry riesling','cardamaro',
                                 'prosecco','sparkling rose','quinquina','pimm\'s no.', 'dubonnet rouge','dubonnet']
-ingredients_transformation['scotch'] = ['islay scotch', 'single malt scotch', 'blended scotch', 'butterscotch schnapps', 'scotch whiskey', 'scotch whisky']
-ingredients_transformation['whisky'] = ['nikka coffey grain whisky', 'nikka whisky taketsuru', 'j.h. cutter whisky', 'canadian whisky', 'johnnie walker','jim beam','jack daniel\'s','jack daniels','rye whiskey','whiskey','tennessee whiskey',
+ingredients_transformation['scotch_ingr'] = ['scotch','islay scotch', 'single malt scotch', 'blended scotch', 'butterscotch schnapps', 'scotch whiskey', 'scotch whisky']
+ingredients_transformation['whisky_ingr'] = ['whisky', 'nikka coffey grain whisky', 'nikka whisky taketsuru', 'j.h. cutter whisky', 'canadian whisky', 'johnnie walker','jim beam','jack daniel\'s','jack daniels','rye whiskey','whiskey','tennessee whiskey',
                                   'blended whiskey','irish whiskey', 'white whiskey','bourbon whiskey','whiskey barrel bitters','canadian whiskey','corn whiskey', 'bourbon', 'bourbon rye','old forester bourbon',
                                   'hirsch small batch reserve bourbon','genever', 'bols genever','prata cachaca','cachaca','glenrothes vintage reserve','everclear','rittenhouse rye','benriach curiositas single malt 10 yo',
                                   'yukon jack','grain alcohol','kirschwasser','crown royal','wild turkey','rock and rye']
-ingredients_transformation['liquer'] = ['luxardo aperitivo', 'luxardo bitter', 'luxardo amaro abano','luxardo espresso italian liqueur','luxardo fernet', 'cointreau', 'luxardo amaretto di saschira', 'luxardo limoncello', 'strega',
+ingredients_transformation['liquer_ingr'] = ['liquer','luxardo aperitivo', 'luxardo bitter', 'luxardo amaro abano','luxardo espresso italian liqueur','luxardo fernet', 'cointreau', 'luxardo amaretto di saschira', 'luxardo limoncello', 'strega',
                                   'tuaca', 'orange liqueur', 'coconut liqueur', 'coffee liqueur', 'herbal liqueur', 'elderflower liqueur', 'liqueur de violette', 'walnut liqueur', 'chocolate liqueur', 'ginger liqueur',
                                   'pomegranate liqueur', 'cherry liqueur', 'strawberry liqueur', 'raspberry liqueur', 'godiva liqueur', 'banana liqueur', 'maraschino liqueur', 'melon liqueur', 'honey liqueur', 'blackberry liqueur',
                                   'vanilla liqueur', 'pear liqueur','hot shot tropical fruit liqueur','lychee liqueur','peach liqueur','hazelnut liqueur', 'hpnotiq liqueur', 'apricot liqueur', 'chambord liqueur', 'anise liqueur',
@@ -229,59 +229,59 @@ ingredients_transformation['liquer'] = ['luxardo aperitivo', 'luxardo bitter', '
                                   'cherry heering','frangelico','kahlua','t. germain','sambuca','pisang ambon','amaretto','amaretto di saronno','ouzo','kummel','old mr. boston kummel','advocaat','limoncello','swedish punch',
                                   'margarita mix','crème de menthe','crème de noyau','crème de violette','crème de fraise','crème de framboise','crème de mûre','crème de pêche','crème de cassis','outhern comfort',
                                   'st germain','kümmel','suze','ramazzotti','pimento dram','blue curaçao','orange curaçao','swedish flaggpunsch', 'mandarine napoleon']
-ingredients_transformation['pepper'] = ['pepper corns', 'black pepper', 'pepper', 'cayenne pepper', 'pepper and salt', 'habanero pepper', 'green bell pepper', 'serrano pepper']
-ingredients_transformation['syrup'] = ['monin cane syrup', 'pomegranate syrup', 'small hand foods gum syrup', 'cardamom syrup','agave syrup', 'demerara syrup','gomme syrup','ginger syrup','maple syrup','lavender syrup',
+ingredients_transformation['pepper_ingr'] = ['pepper','pepper corns', 'black pepper', 'pepper', 'cayenne pepper', 'pepper and salt', 'habanero pepper', 'green bell pepper', 'serrano pepper']
+ingredients_transformation['syrup_ingr'] = ['syrup', 'monin cane syrup', 'pomegranate syrup', 'small hand foods gum syrup', 'cardamom syrup','agave syrup', 'demerara syrup','gomme syrup','ginger syrup','maple syrup','lavender syrup',
                                  'hibiscus syrup','pineapple syrup','rhubarb syrup','orgeat syrup','pear syrup','honey syrup','raspberry syrup','mint syrup','chocolate syrup','corn syrup','chile syrup','imple syrup',
                                  'spiced syrup','blackberry syrup','lapsong souchang syrup','basil syrup','toffee syrup','cherry syrup','trawberry syrup','rose syrup','elderflower syrup','gooseberry syrup', 'grenadine',
                                  'cherry grenadine', 'orgeat', 'small hand foods orgeat', 'house-made orgeat', 'velvet falernum','falernum','maraschino cherry','maraschino', 'coriander syrup', 'almond syrup']
-ingredients_transformation['soda'] = ['fever-tree soda','soda water','club soda','grape soda','lime soda','liter ub soda','7-up soda']
-ingredients_transformation['vermouth'] = ['tempus fugit alessio vermouth di torino rosso','tempus fugit alessio vermouth chinato', 'blanc vermouth', 'dry vermouth', 'dolin vermouth', 'red vermouth','cocchi vermouth di torino',
+ingredients_transformation['soda_ingr'] = ['soda', 'fever-tree soda','soda water','club soda','grape soda','lime soda','liter ub soda','7-up soda']
+ingredients_transformation['vermouth_ingr'] = ['vermouth', 'tempus fugit alessio vermouth di torino rosso','tempus fugit alessio vermouth chinato', 'blanc vermouth', 'dry vermouth', 'dolin vermouth', 'red vermouth','cocchi vermouth di torino',
                                     'dryvermouth','weet vermouth','bianco vermouth','carpano antica','punt e mes']
-ingredients_transformation['cinnamon'] = ['cinnamon tincture','cannella cinnamon cordial', 'ground cinnamon']
-ingredients_transformation['brandy'] = ['calvados', 'peach brandy', 'apple brandy', 'brandy de jerez', 'apricot brandy', 'c. drouin calvados selection', 'cherry brandy', 'pear brandy', 'blackberry brandy', 'coffee brandy',
+ingredients_transformation['cinnamon_ingr'] = ['cinnamon', 'cinnamon tincture','cannella cinnamon cordial', 'ground cinnamon']
+ingredients_transformation['brandy_ingr'] = ['brandy', 'calvados', 'peach brandy', 'apple brandy', 'brandy de jerez', 'apricot brandy', 'c. drouin calvados selection', 'cherry brandy', 'pear brandy', 'blackberry brandy', 'coffee brandy',
                                   'old mr. boston five star brandy', 'mr. boston five star brandy', 'cider brandy', 'plum brandy','c. drouin pommeau de normandie', 'pisco', 'barsol pisco','applejack']
-ingredients_transformation['orange'] = ['orange cream citrate', 'orange flower water','orange blossom water', 'orange juice', 'orange marmalade', 'orange peel', 'mandarin orange', 'orange sorbet', 'orange bitters',
+ingredients_transformation['orange_ingr'] = ['orange', 'orange cream citrate', 'orange flower water','orange blossom water', 'orange juice', 'orange marmalade', 'orange peel', 'mandarin orange', 'orange sorbet', 'orange bitters',
                                   'orange spiral', 'orange zest','orange twist','orange wheel','orange wedge','oranges','orange slice','orange (cut into )','orange slie']
-ingredients_transformation['absinthe'] = ['vieux pontarlier absinthe francaise superieure', 'duplais swiss absinthe verte', 'absinthe or pastis', 'absinthe substitute', 'absinthe bitters', 'lucid absinthe', 'pernod absinthe']
-ingredients_transformation['vodka'] = ['orange vodka','coconut vodka', 'vodka (or tequila)', 'lemon vodka','junmai sake','hangar 1 vodka','hophead vodka','grapefruit flavored vodka','pumpkin vodka','karlsson\'s gold vodka',
+ingredients_transformation['absinthe_ingr'] = ['absinthe', 'vieux pontarlier absinthe francaise superieure', 'duplais swiss absinthe verte', 'absinthe or pastis', 'absinthe substitute', 'absinthe bitters', 'lucid absinthe', 'pernod absinthe']
+ingredients_transformation['vodka_ingr'] = ['vodka','orange vodka','coconut vodka', 'vodka (or tequila)', 'lemon vodka','junmai sake','hangar 1 vodka','hophead vodka','grapefruit flavored vodka','pumpkin vodka','karlsson\'s gold vodka',
                                  'absolut vodka','vanilla vodka','peach vodka','cranberry vodka','raspberry vodka','cherry vodka','citrus vodka','green apple vodka','ml  vodka','espresso vodka','cake vodka',
                                  'pear vodka','pomegranate vodka (van gogh)','. vodka','iter vodka','stolichnaya vodka','chocolate vodka','blueberry vodka','ginger vodka','vodka (skyy)','black vodka','of vodka',
                                  'plain vodka','goldschlager','absolut citron','absolut kurant','peach schnapps','peppermint schnapps','apple schnapps','rumple minze','sake']
-ingredients_transformation['sherry'] = ['oloroso sherry', 'manzanilla sherry','amontillado sherry','pedro ximenez sherry','15 yo sherry','fino sherry','cream sherry','dry sherry','sweet sherry','palo cortado sherry','pedro ximénez sherry',
+ingredients_transformation['sherry_ingr'] = ['sherry', 'oloroso sherry', 'manzanilla sherry','amontillado sherry','pedro ximenez sherry','15 yo sherry','fino sherry','cream sherry','dry sherry','sweet sherry','palo cortado sherry','pedro ximénez sherry',
                                   'olorosso sherry']
-ingredients_transformation['beer'] = ['lager', 'ginger beer', 'root beer','mexican beer','light beer','pale ale beer', 'ginger ale', 'ale','guinness stout','guinness','corona','chilled stout','raspberry lambic']
-ingredients_transformation['gin'] = ['genevieve gin', 'junipero gin', 'barr hill gin', 'plymouth gin', 'aviation gin', 'citadelle gin', 'old tom gin', 'sloe gin', 'dry gin', 'mr. boston gin', 'mint-flavored gin',
+ingredients_transformation['beer_ingr'] = ['beer','lager', 'ginger beer', 'root beer','mexican beer','light beer','pale ale beer', 'ginger ale', 'ale','guinness stout','guinness','corona','chilled stout','raspberry lambic']
+ingredients_transformation['gin_ingr'] = ['gin', 'genevieve gin', 'junipero gin', 'barr hill gin', 'plymouth gin', 'aviation gin', 'citadelle gin', 'old tom gin', 'sloe gin', 'dry gin', 'mr. boston gin', 'mint-flavored gin',
                                'tanqueray gin', 'bombay sapphire gin', 'gin or vodka', 'beefeater gin', 'american gin', 'premium gin' , 'bulldog gin', 'gin (new amsterdam gin)', 'gin (hendrick\'s gin)']
-ingredients_transformation['lemonade'] = ['fever-tree lemonade','good quality sharp lemonade', 'pink lemonade','kool-aid','cola','coca-cola','pepsi cola','7-up','mountain dew','zima','schweppes russchian','sprite','fruit punch', '7-up soda']
-ingredients_transformation['bitter'] = ['chocolate bitters', 'miracle mile forbidden barrel aged bitters', 'cranberry bitters', 'dr. adam\'s boker\'s bitters', 'grapefruit bitters', 'tempus fugit abbott\'s bitters',
+ingredients_transformation['lemonade_ingr'] = ['lemonade', 'fever-tree lemonade','good quality sharp lemonade', 'pink lemonade','kool-aid','cola','coca-cola','pepsi cola','7-up','mountain dew','zima','schweppes russchian','sprite','fruit punch', '7-up soda']
+ingredients_transformation['bitter_ingr'] = ['bitter','chocolate bitters', 'miracle mile forbidden barrel aged bitters', 'cranberry bitters', 'dr. adam\'s boker\'s bitters', 'grapefruit bitters', 'tempus fugit abbott\'s bitters',
                                   'peach bitters', 'cherry bitters','celery bitters','jerry thomas bitters','bitters','angostura bitters','old fashioned bitters','mole bitters','fennel bitters','apple bitters','black walnut bitters',
                                   'rhubarb bitters','bittermens burlesque bitters','aromatic bitters','peychaud bitters','bitter lemon','bob\'s bitters abbott\'s bitter','gentian bitters','hellfire bitters',
                                   'the bitter truth jerry thomas\' own decanter bitter', 'cardamom bitters', 'cognac', 'vs cognac','salt tincture','hine rare vsop','amer picon','gran classico','almond extract','almond flavoring',
                                   'christmas spirit','pineau des charentes','sarsaparilla','pastis','armagnac','cachaça','cachaça (leblon)','fernet branca','elderflower cordial']
-ingredients_transformation['rum'] = ['coconut rum', 'pineapple rum','light rum','english harbour rum', 'pink pigeon rum', 'aged rum', 'white rum', 'black rum', 'banks 5 rum', 'añejo rum', 'spiced rum',
+ingredients_transformation['rum_ingr'] = ['rum', 'coconut rum', 'pineapple rum','light rum','english harbour rum', 'pink pigeon rum', 'aged rum', 'white rum', 'black rum', 'banks 5 rum', 'añejo rum', 'spiced rum',
                                'dark rum', 'malibu rum', 'mr. boston rum', 'gold rum', 'bacardi rum', 'jamaica rum', '5-proof rum', 'anejo rum', '151 rum','smith & cross','bacardi limon','arrack']
-ingredients_transformation['water'] = ['coconut water', 'tonic water','sparkling water','boiling water','cold water','carbonated water','topo chico mineral water','seltzer water','rose water','hot water',
+ingredients_transformation['water_ingr'] = ['water', 'coconut water', 'tonic water','sparkling water','boiling water','cold water','carbonated water','topo chico mineral water','seltzer water','rose water','hot water',
                                  'water (divided)','water melon','water (distilled)','of water','quarts water','ice','crushed ice','to 4 ice','of ice']
-ingredients_transformation['milk'] = ['coconut milk','condense milk','almond milk','chocolate milk','whole milk','milk (or cream)','soy milk','cups  milk']
-ingredients_transformation['tequila'] = ['blanco tequila', 'reposado tequila', 'gold tequila', 'anejo tequila', '. tequila', 'tequila rose', 'silver tequila', 'of tequila' , 'prickly pear tequila']
-ingredients_transformation['olive'] = ['olive juice', 'olive brine', 'green olive']
-ingredients_transformation['juice'] = ['grape juice', 'lychee juice','yuzu juice','pomegranate juice','tomato juice','strawberry juice','rhubarb juice','cranberry juice','lemon juice','mango juice','apple juice','fruit juice',
+ingredients_transformation['milk_ingr'] = ['milk', 'coconut milk','condense milk','almond milk','chocolate milk','whole milk','milk (or cream)','soy milk','cups  milk']
+ingredients_transformation['tequila_ingr'] = ['tequila','blanco tequila', 'reposado tequila', 'gold tequila', 'anejo tequila', '. tequila', 'tequila rose', 'silver tequila', 'of tequila' , 'prickly pear tequila']
+ingredients_transformation['olive_ingr'] = ['olive','olive juice', 'olive brine', 'green olive']
+ingredients_transformation['juice_ingr'] = ['juice','grape juice', 'lychee juice','yuzu juice','pomegranate juice','tomato juice','strawberry juice','rhubarb juice','cranberry juice','lemon juice','mango juice','apple juice','fruit juice',
                                  'clam juice','raspberry juice','blueberry juice', 'carrot juice', 'pomegranite juice', 'agave nectar', 'peach nectar', 'mango nectar', 'apricot nectar', 'tamarind nectar']
-ingredients_transformation['coffee'] = ['cold-brew coffee', 'espresso coffee', 'hot coffee', 'cold brewed coffee', 'coffee beans', 'tables instant coffee','espresso']
-ingredients_transformation['lemon'] = ['fresh lemon', 'lemon sour', 'lemon sorbet', 'lemon peel','lemon slice','lemon twist','lemon wheel','lemon zest','lemon (cut into )','lemon (juied)','lemon, thinly slied','emon',
+ingredients_transformation['coffee_ingr'] = ['coffee', 'cold-brew coffee', 'espresso coffee', 'hot coffee', 'cold brewed coffee', 'coffee beans', 'tables instant coffee','espresso']
+ingredients_transformation['lemon_ingr'] = ['lemon','fresh lemon', 'lemon sour', 'lemon sorbet', 'lemon peel','lemon slice','lemon twist','lemon wheel','lemon zest','lemon (cut into )','lemon (juied)','lemon, thinly slied','emon',
                                  'lime sour','fresh lime','lime juice','lime','lime vodka', 'lime peel','lime twist','lime wheel', 'lime wedge', 'lime cordial', 'lime (cut into )', 'lime zest', 'lime (slied)',
                                  'lime slice','lime(cut into )', 'lime (juied)', 'lemon wedge','lemons (slied)','ime','squeeze of ime']
-ingredients_transformation['egg'] = ['egg white', 'egg yolk', 'whole egg', 'egg yok', 'sma egg', 'arge egg']
-ingredients_transformation['tea'] = ['chai tea','iced tea','tea (chilled)','chamomile tea','black tea','green tea leaves','hibiscus tea']
-ingredients_transformation['cider'] = ['apple cider', 'hard cider', 'sparkling cider', 'fresh cider']
-ingredients_transformation['grapefruit'] = ['grapefruit twist','grapefruit wedge','grapefruit slice','grapefruit peel']
-ingredients_transformation['ginger'] = ['fresh ginger','crystallised ginger','ground ginger','thin slice ginger']
-ingredients_transformation['butter'] = ['spiced butter','table butter','butter (softened)']
-ingredients_transformation['cream'] = ['heavy cream','whipped cream','whipping cream','light cream','irish cream','chocolate ice-cream','sweet cream','amarula cream','creme de banane','coconut cream',
+ingredients_transformation['egg_ingr'] = ['egg','egg white', 'egg yolk', 'whole egg', 'egg yok', 'sma egg', 'arge egg']
+ingredients_transformation['tea_ingr'] = ['tea', 'chai tea','iced tea','tea (chilled)','chamomile tea','black tea','green tea leaves','hibiscus tea']
+ingredients_transformation['cider_ingr'] = ['cider','apple cider', 'hard cider', 'sparkling cider', 'fresh cider']
+ingredients_transformation['grapefruit_ingr'] = ['grapefruit', 'grapefruit twist','grapefruit wedge','grapefruit slice','grapefruit peel']
+ingredients_transformation['ginger_ingr'] = ['ginger', 'fresh ginger','crystallised ginger','ground ginger','thin slice ginger']
+ingredients_transformation['butter_ingr'] = ['butter','spiced butter','table butter','butter (softened)']
+ingredients_transformation['cream_ingr'] = ['cream','heavy cream','whipped cream','whipping cream','light cream','irish cream','chocolate ice-cream','sweet cream','amarula cream','creme de banane','coconut cream',
                                  'fresh sweet n\' sour','sweet and sour','vanilla cream','creme de cassis','creme de mure','creme de banana','creme de noyaux','creme de violette','creme de menthe','creme yvette']
-ingredients_transformation['sauce'] = ['worcestershire sauce','tabasco sauce','soy sauce','hot sauce','tomato catsup']
-ingredients_transformation['cloves'] = ['whole cloves','ground cloves']
-ingredients_transformation['cucumber'] = ['cucumber peel','cucumber juice','cucumber slice']
+ingredients_transformation['sauce_ingr'] = ['sauce','worcestershire sauce','tabasco sauce','soy sauce','hot sauce','tomato catsup']
+ingredients_transformation['cloves_ingr'] = ['cloves', 'whole cloves','ground cloves']
+ingredients_transformation['cucumber_ingr'] = ['cucumber','cucumber peel','cucumber juice','cucumber slice']
 
 # garnish
 ingredients_transformation['common_ingr'] = ['citric acid', 'pineapple gum', 'pineapple', 'pineapple wedge', 'pineapple leaves', 'cup d pineapple',
