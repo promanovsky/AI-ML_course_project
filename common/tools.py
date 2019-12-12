@@ -233,7 +233,7 @@ ingredients_transformation['pepper'] = ['pepper corns', 'black pepper', 'pepper'
 ingredients_transformation['syrup'] = ['monin cane syrup', 'pomegranate syrup', 'small hand foods gum syrup', 'cardamom syrup','agave syrup', 'demerara syrup','gomme syrup','ginger syrup','maple syrup','lavender syrup',
                                  'hibiscus syrup','pineapple syrup','rhubarb syrup','orgeat syrup','pear syrup','honey syrup','raspberry syrup','mint syrup','chocolate syrup','corn syrup','chile syrup','imple syrup',
                                  'spiced syrup','blackberry syrup','lapsong souchang syrup','basil syrup','toffee syrup','cherry syrup','trawberry syrup','rose syrup','elderflower syrup','gooseberry syrup', 'grenadine',
-                                 'cherry grenadine', 'orgeat', 'small hand foods orgeat', 'house-made orgeat', 'velvet falernum','falernum','maraschino cherry','maraschino']
+                                 'cherry grenadine', 'orgeat', 'small hand foods orgeat', 'house-made orgeat', 'velvet falernum','falernum','maraschino cherry','maraschino', 'coriander syrup', 'almond syrup']
 ingredients_transformation['soda'] = ['fever-tree soda','soda water','club soda','grape soda','lime soda','liter ub soda','7-up soda']
 ingredients_transformation['vermouth'] = ['tempus fugit alessio vermouth di torino rosso','tempus fugit alessio vermouth chinato', 'blanc vermouth', 'dry vermouth', 'dolin vermouth', 'red vermouth','cocchi vermouth di torino',
                                     'dryvermouth','weet vermouth','bianco vermouth','carpano antica','punt e mes']
