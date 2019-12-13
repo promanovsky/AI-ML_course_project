@@ -51,7 +51,7 @@ def do_experiment(dataset_path):
 
 
 # построение моделей на датасете до группировки (порядка 800 столбцов)
-scaled_data, label_df = do_experiment('/datasets/reducing_dataset.csv')
+#scaled_data, label_df = do_experiment('/datasets/reducing_dataset.csv')
 # doPca_decomposition_demonstration(scaled_data, label_df)
 # do_tsne_decomposition_demonstration(scaled_data, label_df)
 # do_lda_decomposition_demonstration(scaled_data, label_df,3)
@@ -61,7 +61,7 @@ scaled_data, label_df = do_experiment('/datasets/reducing_dataset.csv')
 # do_AE_decomposition_demonstration(scaled_data, label_df)
 
 # построение моделей на датасете после группировки но с нулями вместо пустых данных
-scaled_data, label_df = do_experiment('/datasets/grouped_columns.csv')
+#scaled_data, label_df = do_experiment('/datasets/grouped_columns.csv')
 # doPca_decomposition_demonstration(scaled_data, label_df)
 # do_tsne_decomposition_demonstration(scaled_data, label_df)
 # do_lda_decomposition_demonstration(scaled_data, label_df,3)
@@ -71,7 +71,7 @@ scaled_data, label_df = do_experiment('/datasets/grouped_columns.csv')
 # do_AE_decomposition_demonstration(scaled_data, label_df)
 
 # построение моделей на датасете с заполненными метками на основании регрессии
-scaled_data, label_df = do_experiment('/datasets/grouped_columns_filled_with_regression.csv')
+#scaled_data, label_df = do_experiment('/datasets/grouped_columns_filled_with_regression.csv')
 # doPca_decomposition_demonstration(scaled_data, label_df)
 # do_tsne_decomposition_demonstration(scaled_data, label_df)
 # do_lda_decomposition_demonstration(scaled_data, label_df,3)

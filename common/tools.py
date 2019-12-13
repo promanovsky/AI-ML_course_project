@@ -131,7 +131,7 @@ def draw_confusion_matrix(y_true, y_pred, title):
     for i in range(cm.shape[0]):
         for j in range(cm.shape[1]):
             ax.text(j, i, format(cm[i, j], fmt),
-                    ha="center", va="center",
+                    ha="center",
                     color="white" if cm[i, j] > thresh else "black")
     fig.tight_layout()
     plt.show()
