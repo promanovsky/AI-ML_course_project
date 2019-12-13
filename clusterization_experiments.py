@@ -70,8 +70,8 @@ draw2D_points(doLle(X, 2), y, 'lle')
 draw2D_points(doLle(df_csv[columns].to_numpy(), 2), df_csv['rating'].to_numpy(), 'lle')
 
 algorithms = []
-algorithms.append(KMeans(n_clusters=7, random_state=42))
-algorithms.append(MiniBatchKMeans(n_clusters=5))
+algorithms.append(KMeans(n_clusters=8, random_state=42))
+algorithms.append(MiniBatchKMeans(n_clusters=2))
 
 data = []
 for algo in algorithms:

@@ -74,7 +74,7 @@ for i in range(1, 11):
 
 draw_accuracy(data, 1, 'KNeighborsRegressor')
 # 1 или 10 - оптимальные параметры исходя из графика
-NEIGHBORS_COUNT = 10
+NEIGHBORS_COUNT = 9
 decomposition_methods = [doPcaN, doTsne, doLle]
 data = [[],[]]
 for ind, decomp in enumerate(decomposition_methods):
