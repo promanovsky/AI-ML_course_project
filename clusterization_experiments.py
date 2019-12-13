@@ -60,7 +60,7 @@ def draw_inertia_for_clusterization_method(method, title):
 draw_inertia_for_clusterization_method(KMeans, 'KMeans')
 draw_inertia_for_clusterization_method(MiniBatchKMeans, 'MiniBatchKMeans')
 
-draw2D_points(doPcaN(X, 2), y, 't-SNE')
+draw2D_points(doPcaN(X, 2), y, 'pca 2')
 draw2D_points(doPcaN(df_csv[columns].to_numpy(), 2), df_csv['rating'].to_numpy(), 'pca 2 components')
 
 draw2D_points(doTsne(X, 2), y, 't-SNE')
