@@ -1,6 +1,6 @@
 import pandas as pd
 import os
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, minmax_scale
 from sklearn.preprocessing import LabelEncoder
 from common.tools import forest_regression_test, forest_classification_test, gradient_boosting_classification_test, \
     gradient_boosting_regression_test, showXGBTrainImportance, tree_classification_test

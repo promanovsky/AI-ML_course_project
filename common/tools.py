@@ -298,8 +298,7 @@ ingredients_transformation['common_ingr'] = ['citric acid', 'pineapple gum', 'pi
                                        'dried rose buds','marmalade','blueberry preserve','coco lopez','half and half','raspberry preserve','pea-sized doop of wasabi paste','chambord','ilantro leaves','oves','eggnog','sliesuumber']
 
 def find_group_for_ingredient(ingr_name):
-    if ingr_name in ingredients_transformation.keys():
-        return ingr_name
-    for key, val in ingredients_transformation.items():
-        if ingr_name in val:
-            return key
+    for ind, key in enumerate(ingredients_transformation.keys()):
+        if ingr_name in ingredients_transformation.get(key):
+            return key, ind
+    raise Exception('Wrong ingredient name')
