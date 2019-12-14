@@ -28,5 +28,6 @@ print('model score =', trainedforest.score(X_Test, Y_Test))
 
 joblib.dump(trainedforest, 'random_forest_classifier_model.mdl')
 joblib.dump(lenc, 'random_forest_label_encoder.lenc')
+joblib.dump(scaler, 'random_forest_scaler.sclr')
 print('done')
-# model score = 0.5577812018489985
+# model score = 0.5485362095531587

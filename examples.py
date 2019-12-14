@@ -1,28 +1,31 @@
 from sklearn.externals import joblib
-from common.tools import ingredients_transformation, find_group_for_ingredient, findMeasure, measures
 import numpy as np
+
+from common.tools import ingredients_transformation, find_group_for_ingredient, findMeasure, measures
+
 
 loaded_model = joblib.load('random_forest_classifier_model.mdl')
 lenc =  joblib.load('random_forest_label_encoder.lenc')
+scaler = joblib.load('random_forest_scaler.sclr')
 
 print(type(loaded_model), loaded_model)
 print(len(ingredients_transformation))
 
 param1 = [('rosé wine', 1, 'bottle'), ('strawberry liqueur', 0.5, 'bottle'), ('nutmeg', 1, 'cup')]
 param2 = [('apricot brandy', 25, 'shot'), ('coca-cola', 1, 'full glass'), ('cranberry vodka', 5, 'bottle')]
-param3 = [('red wine', .02, 'l'), ('plymouth gin', .022, 'l'), ('crystallised ginger', 1, 'tsp'), ('cloves', 2, 'tsp'), ('tonic', 0.5, 'l')]
+param3 = [('red wine', 2, 'l'), ('plymouth gin', 1.5, 'l'), ('crystallised ginger', 50, 'tsp'), ('cloves', 20, 'tsp'), ('tonic', 0.5, 'l')]
 
-def prepare_data(param):
+def prepare_data(param, scaler):
     data = [0 for x in range(len(ingredients_transformation))]
     for item in param:
         ingr_group, index = find_group_for_ingredient(item[0])
         value = measures[findMeasure(item[2], measures)] * item[1]
         data[index] = value
-    return np.asarray(data).reshape(1,-1)
+    return scaler.transform(np.asarray(data).reshape(1,-1))
 
-print('prediction =', lenc.inverse_transform(loaded_model.predict(prepare_data(param1))))
-print('prediction =', lenc.inverse_transform(loaded_model.predict(prepare_data(param2))))
-print('prediction =', lenc.inverse_transform(loaded_model.predict(prepare_data(param3))))
+print('prediction =', lenc.inverse_transform(loaded_model.predict(prepare_data(param1, scaler))))
+print('prediction =', lenc.inverse_transform(loaded_model.predict(prepare_data(param2, scaler))))
+print('prediction =', lenc.inverse_transform(loaded_model.predict(prepare_data(param3, scaler))))
 
 """
 wine_ingr
