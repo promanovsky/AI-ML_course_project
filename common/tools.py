@@ -302,3 +302,11 @@ def find_group_for_ingredient(ingr_name):
         if ingr_name in ingredients_transformation.get(key):
             return key, ind
     raise Exception('Wrong ingredient name')
+
+def prepare_data(param, scaler):
+    data = [0 for x in range(len(ingredients_transformation))]
+    for item in param:
+        ingr_group, index = find_group_for_ingredient(item[0])
+        value = measures[findMeasure(item[2], measures)] * item[1]
+        data[index] = value
+    return scaler.transform(np.asarray(data).reshape(1,-1))
